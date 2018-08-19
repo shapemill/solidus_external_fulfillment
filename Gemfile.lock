@@ -2,7 +2,9 @@ PATH
   remote: .
   specs:
     solidus_external_fulfillment (0.0.1)
+      hashids
       solidus_core
+      state_machines
 
 GEM
   remote: https://rubygems.org/
@@ -124,6 +126,7 @@ GEM
       execjs (~> 2.0)
       sprockets (>= 2.0.0)
       tilt (>= 1.2)
+    hashids (1.0.4)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     jbuilder (2.7.0)

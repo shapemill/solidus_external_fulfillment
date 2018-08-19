@@ -9,4 +9,10 @@ FactoryBot.define do
     display_name { "Test center" }
     order_email { "test@example.com" }
   end
+
+  factory :spree_fulfillment_request, class: 'Spree::FulfillmentRequest' do
+    state :not_prepared
+    association :order, factory: :order_ready_to_ship
+    association :fulfillment_center, factory: :spree_fulfillment_center
+  end
 end
