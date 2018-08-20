@@ -5,7 +5,7 @@ FactoryBot.define do
   # require 'solidus_external_fulfillment/factories'
 
   factory :spree_fulfillment_center, class: 'Spree::FulfillmentCenter' do
-    fulfillment_type { :paper_print }
+    fulfillment_type { :dummy_type_1 }
     display_name { "Test center" }
     order_email { "test@example.com" }
   end

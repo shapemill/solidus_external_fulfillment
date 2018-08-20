@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 RSpec.describe Spree::FulfillmentRequest, type: :model do
-  describe "Validation" do
-    before(:each) do
-      @valid_record = FactoryBot.create(:spree_fulfillment_request)
-    end
+  before(:each) do
+    @valid_record = FactoryBot.create(:spree_fulfillment_request)
+  end
 
+  describe "Validation" do
     it "passes if all attributes are valid" do
       expect(@valid_record).to be_valid
     end
@@ -27,170 +27,166 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
   end
 
   describe "State transition" do
-    before(:each) do
-      @new_record = Spree::FulfillmentRequest.new
-    end
-
     describe "start_preparation" do
       it "succeeds if state is not_prepared" do
         expect {
-          @new_record.start_preparation
+          @valid_record.start_preparation!
         }.to_not raise_error
       end
       it "fails if state is preparing" do
-        @new_record.state = :preparing
+        @valid_record.state = :preparing
         expect {
-          @new_record.start_preparation
+          @valid_record.start_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is pending" do
-        @new_record.state = :pending
+        @valid_record.state = :pending
         expect {
-          @new_record.start_preparation
+          @valid_record.start_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is fulfilled" do
-        @new_record.state = :fulfilled
+        @valid_record.state = :fulfilled
         expect {
-          @new_record.start_preparation
+          @valid_record.start_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is preparation_failed" do
-        @new_record.state = :preparation_failed
+        @valid_record.state = :preparation_failed
         expect {
-          @new_record.start_preparation
+          @valid_record.start_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
     end
 
     describe "fail_preparation" do
       it "fails if state is not_prepared" do
-        @new_record.state = :not_prepared
+        @valid_record.state = :not_prepared
         expect {
-          @new_record.fail_preparation
+          @valid_record.fail_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "succeeds if state is preparing" do
-        @new_record.state = :preparing
+        @valid_record.state = :preparing
         expect {
-          @new_record.fail_preparation
+          @valid_record.fail_preparation!
         }.to_not raise_error
       end
       it "fails if state is pending" do
-        @new_record.state = :pending
+        @valid_record.state = :pending
         expect {
-          @new_record.fail_preparation
+          @valid_record.fail_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is fulfilled" do
-        @new_record.state = :fulfilled
+        @valid_record.state = :fulfilled
         expect {
-          @new_record.fail_preparation
+          @valid_record.fail_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is preparation_failed" do
-        @new_record.state = :preparation_failed
+        @valid_record.state = :preparation_failed
         expect {
-          @new_record.fail_preparation
+          @valid_record.fail_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
     end
 
     describe "finish_preparation" do
       it "fails if state is not_prepared" do
-        @new_record.state = :not_prepared
+        @valid_record.state = :not_prepared
         expect {
-          @new_record.finish_preparation
+          @valid_record.finish_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "succeeds if state is preparing" do
-        @new_record.state = :preparing
+        @valid_record.state = :preparing
         expect {
-          @new_record.finish_preparation
+          @valid_record.finish_preparation!
         }.to_not raise_error
       end
       it "fails if state is pending" do
-        @new_record.state = :pending
+        @valid_record.state = :pending
         expect {
-          @new_record.finish_preparation
+          @valid_record.finish_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is fulfilled" do
-        @new_record.state = :fulfilled
+        @valid_record.state = :fulfilled
         expect {
-          @new_record.finish_preparation
+          @valid_record.finish_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is preparation_failed" do
-        @new_record.state = :preparation_failed
+        @valid_record.state = :preparation_failed
         expect {
-          @new_record.finish_preparation
+          @valid_record.finish_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
     end
 
     describe "fulfill" do
       it "fails if state is not_prepared" do
-        @new_record.state = :not_prepared
+        @valid_record.state = :not_prepared
         expect {
-          @new_record.fulfill
+          @valid_record.fulfill!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is preparing" do
-        @new_record.state = :preparing
+        @valid_record.state = :preparing
         expect {
-          @new_record.fulfill
+          @valid_record.fulfill!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "succeeds if state is pending" do
-        @new_record.state = :pending
+        @valid_record.state = :pending
         expect {
-          @new_record.fulfill
+          @valid_record.fulfill!
         }.to_not raise_error
       end
       it "fails if state is fulfilled" do
-        @new_record.state = :fulfilled
+        @valid_record.state = :fulfilled
         expect {
-          @new_record.fulfill
+          @valid_record.fulfill!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is preparation_failed" do
-        @new_record.state = :preparation_failed
+        @valid_record.state = :preparation_failed
         expect {
-          @new_record.fulfill
+          @valid_record.fulfill!
         }.to raise_error(StateMachines::InvalidTransition)
       end
     end
 
     describe "reset" do
       it "fails if state is not_prepared" do
-        @new_record.state = :not_prepared
+        @valid_record.state = :not_prepared
         expect {
-          @new_record.reset
+          @valid_record.reset!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is preparing" do
-        @new_record.state = :preparing
+        @valid_record.state = :preparing
         expect {
-          @new_record.reset
+          @valid_record.reset!
         }.to raise_error(StateMachines::InvalidTransition)
       end
       it "fails if state is pending" do
-        @new_record.state = :pending
+        @valid_record.state = :pending
         expect {
-          @new_record.reset
+          @valid_record.reset!
         }.to_not raise_error
       end
       it "succeeds if state is fulfilled" do
-        @new_record.state = :fulfilled
+        @valid_record.state = :fulfilled
         expect {
-          @new_record.reset
+          @valid_record.reset!
         }.to_not raise_error
       end
       it "succeeds if state is preparation_failed" do
-        @new_record.state = :preparation_failed
+        @valid_record.state = :preparation_failed
         expect {
-          @new_record.reset
+          @valid_record.reset!
         }.to_not raise_error
       end
     end
