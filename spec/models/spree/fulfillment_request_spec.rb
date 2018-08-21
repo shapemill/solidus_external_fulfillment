@@ -20,10 +20,12 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
       expect(@valid_record).to be_invalid
     end
 
-    it "fails if state" do
+    it "fails if state is nil" do
       @valid_record.state = nil
       expect(@valid_record).to be_invalid
     end
+
+    it "fails if state is pending and there are no associated instructions"
   end
 
   describe "State transition" do
