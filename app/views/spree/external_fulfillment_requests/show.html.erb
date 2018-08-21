@@ -5,9 +5,6 @@
         <%= @fulfillment_request.order.number %>
       </h1>
       <table id="order-info-table" class="table table-sm table-borderless">
-        <thead>
-
-        </thead>
         <tbody>
           <tr>
             <th scope="col">Placed</th>
@@ -19,7 +16,11 @@
           </tr>
           <tr>
             <th scope="col">Status</th>
-            <td><span class="badge badge-pill <%= @fulfillment_request.state %>"><%= @fulfillment_request.state.humanize %></span></td>
+            <td>
+              <span class="badge badge-pill <%= @fulfillment_request.state %>">
+                <%= @fulfillment_request.state.humanize %>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -83,7 +84,7 @@
       <h3>Instructions</h3>
       <div class="card">
         <div class="card-body">
-          TODO
+          <%= render partial: "notes_box", locals: { fulfillment_request: @fulfillment_request }  %>
         </div>
       </div>
 
@@ -99,31 +100,13 @@
       <table class="table table-bordered table-striped table-sm">
         <thead>
           <tr>
-            <th scope="col">Quantity</th>
-            <th scope="col">Image</th>
-            <th scope="col">Size</th>
-            <th scope="col">Paper</th>
+            <%= render partial: "instructions_table_col_titles", locals: { fulfillment_request: @fulfillment_request }  %>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>2</td>
-            <td class="text-center"><img class="preview-image" src="https://kittenrescue.org/wp-content/uploads/2017/03/KittenRescue_KittenCareHandbook.jpg"></td>
-            <td>100 x 100 mm</td>
-            <td>Hahnemühle osv</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td class="text-center"><img class="preview-image" src="https://kittenrescue.org/wp-content/uploads/2017/03/KittenRescue_KittenCareHandbook.jpg"></td>
-            <td>100 x 100 mm</td>
-            <td>Hahnemühle osv</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td class="text-center"><img class="preview-image" src="https://kittenrescue.org/wp-content/uploads/2017/03/KittenRescue_KittenCareHandbook.jpg"></td>
-            <td>100 x 100 mm</td>
-            <td>Hahnemühle osv</td>
-          </tr>
+          <% @fulfillment_request.line_item_fulfillment_instructions.each do |instruction| %>
+          <tr><%= render partial: "instructions_table_row", locals: { line_item_fulfillment_instruction: instruction } %></tr>
+          <% end %>
         </tbody>
       </table>
     </div>
@@ -134,12 +117,9 @@
       <%= link_to 'Mark as shipped',
         @fulfillment_request.hash_id,
         method: :put,
-        data: { confirm: "Are you sure?" }
+        data: { confirm: "Are you sure?" },
+        class: "btn btn-block btn-success"
       %>
     </div>
-
   </div>
-
-
-
 </div>
