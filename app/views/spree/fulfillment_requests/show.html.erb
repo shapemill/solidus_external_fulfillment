@@ -1,0 +1,145 @@
+<div id="fulfillment-request-container" class="container">
+  <div class="row">
+    <div class="col-lg">
+      <h1>Order
+        <%= @fulfillment_request.order.number %>
+      </h1>
+      <table id="order-info-table" class="table table-sm table-borderless">
+        <thead>
+
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="col">Placed</th>
+            <td><%= @fulfillment_request.created_at %></td>
+          </tr>
+          <tr>
+            <th scope="col">Fulfillment center</th>
+            <td><%= @fulfillment_request.fulfillment_center.display_name %></td>
+          </tr>
+          <tr>
+            <th scope="col">Status</th>
+            <td><span class="badge badge-pill <%= @fulfillment_request.state %>"><%= @fulfillment_request.state.humanize %></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-lg">
+    </div>
+  </div>
+
+  <hr class="separator">
+
+  <div class="row">
+    <div class="col-sm">
+      <h3>Shipping address</h3>
+      <table class="table table-bordered table-striped table-sm">
+        <tbody>
+          <tr>
+            <th scope="row">Name</th>
+            <td>
+              <%= @fulfillment_request.order.shipping_address.first_name %>
+                <%= @fulfillment_request.order.shipping_address.last_name %>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Address</th>
+            <td>
+              <%= [@fulfillment_request.order.shipping_address.address1, @fulfillment_request.order.shipping_address.address2].join(", ") %>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">City</th>
+            <td>
+              <%= @fulfillment_request.order.shipping_address.city %>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">State</th>
+            <td>
+              <%= @fulfillment_request.order.shipping_address.state %>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Zip code</th>
+            <td>
+              <%= @fulfillment_request.order.shipping_address.zipcode %>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Country</th>
+            <td>
+              <%= @fulfillment_request.order.shipping_address.country %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Shipping method</h3>
+      <p>TODO</p>
+    </div>
+    <div class="col-sm">
+
+      <h3>Instructions</h3>
+      <div class="card">
+        <div class="card-body">
+          TODO
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-block">Download packing slip</button>
+    </div>
+  </div>
+
+  <hr class="separator">
+
+  <div class="row">
+    <div class="col-sm">
+      <h3>Items to produce</h3>
+      <table class="table table-bordered table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Quantity</th>
+            <th scope="col">Image</th>
+            <th scope="col">Size</th>
+            <th scope="col">Paper</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2</td>
+            <td class="text-center"><img class="preview-image" src="https://kittenrescue.org/wp-content/uploads/2017/03/KittenRescue_KittenCareHandbook.jpg"></td>
+            <td>100 x 100 mm</td>
+            <td>Hahnemühle osv</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="text-center"><img class="preview-image" src="https://kittenrescue.org/wp-content/uploads/2017/03/KittenRescue_KittenCareHandbook.jpg"></td>
+            <td>100 x 100 mm</td>
+            <td>Hahnemühle osv</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="text-center"><img class="preview-image" src="https://kittenrescue.org/wp-content/uploads/2017/03/KittenRescue_KittenCareHandbook.jpg"></td>
+            <td>100 x 100 mm</td>
+            <td>Hahnemühle osv</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm">
+      <%= link_to 'Mark as shipped',
+        @fulfillment_request.hash_id,
+        method: :put,
+        data: { confirm: "Are you sure?" }
+      %>
+    </div>
+
+  </div>
+
+
+
+</div>

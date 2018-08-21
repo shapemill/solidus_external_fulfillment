@@ -36,4 +36,22 @@ class Spree::FulfillmentRequest < ApplicationRecord
       transition [:pending, :preparation_failed, :fulfilled] => :not_prepared
     end
   end
+
+  def self.find_by_hash_id obfuscated_id
+    id = id_hasher.decode(obfuscated_id).first
+    Spree::FulfillmentRequest.find(id)
+  end
+
+  def hash_id
+    Spree::FulfillmentRequest::id_hasher.encode(self.id)
+  end
+
+  private
+
+  def self.id_hasher
+    ::Hashids.new(
+      "0c0daa78aeec13154c0830e5f6cf44",
+      16
+    )
+  end
 end
