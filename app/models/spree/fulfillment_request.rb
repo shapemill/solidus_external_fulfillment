@@ -8,7 +8,7 @@ class Spree::FulfillmentRequest < ApplicationRecord
   ]
 
   after_create do
-    notifier_instance.created
+    notifier.created
   end
 
   belongs_to :order, class_name: "Spree::Order", foreign_key: "spree_order_id"
@@ -41,17 +41,17 @@ class Spree::FulfillmentRequest < ApplicationRecord
     end
 
     after_transition to: :pending do |fulfillment_request, _|
-      fulfillment_request.notifier_instance.prepared
+      fulfillment_request.notifier.prepared
     end
 
     after_transition to: :fulfilled do |fulfillment_request, _|
-      fulfillment_request.notifier_instance.fulfilled
+      fulfillment_request.notifier.fulfilled
       fulfillment_request.fulfilled_at = DateTime.now
       fulfillment_request.save!
     end
 
     after_transition to: :fail_preparation do |fulfillment_request, _|
-      fulfillment_request.notifier_instance.failed_to_prepare
+      fulfillment_request.notifier.failed_to_prepare
     end
   end
 
@@ -71,7 +71,7 @@ class Spree::FulfillmentRequest < ApplicationRecord
     )
   end
 
-  def notifier_instance
+  def notifier
     class_name = Spree::ExternalFulfillment.fulfillment_request_notifier_class
     class_name.constantize.new(self)
   end
