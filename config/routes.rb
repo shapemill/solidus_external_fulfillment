@@ -5,6 +5,6 @@ Spree::Core::Engine.routes.draw do
     resources :fulfillment_centers
   end
 
-  get '/ship/:hash_id', to: 'fulfillment_requests#show', :as => :fulfillment_request
-  put '/ship/:hash_id', to: 'fulfillment_requests#fulfill'
+  get '/ship/:hash_id', to: 'external_fulfillment_requests#show', :as => :external_fulfillment_request
+  put '/ship/:hash_id', to: 'external_fulfillment_requests#fulfill'
 end
