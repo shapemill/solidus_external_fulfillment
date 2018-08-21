@@ -2,29 +2,17 @@
 
 ## Models
 
-* __FulfillmentCenter__
-  
-* __FulfillmentRequest__
-  * `order`
-  * `fulfillment_center`
-  * `fulfillment_status` [`not_prepared`, `preparing`, `pending`, `fulfilled`, `preparation_failed`]
-  * `preparation_error_message`
-  * `line_item_fulfillment_instructions`
-  * `fulfilled_at`
-  * `packing_slip_url`
-
-* `LineItemFulfillmentInstruction`
-  * fulfillment request
-  * line item    
+* FulfillmentCenter
+* FulfillmentRequest__
+  * `address_tag_url` ⚠️
+  * `packing_slip_url` ⚠️ 
+* LineItemFulfillmentInstruction
 
 ## Decorations
-
-  * Spree::Store
-     * add `latest_periodic_fulfillment_check_at` 
-  * Spree::Order
-     * override finalize! to create empty fulfillment requests, one per unique fulfillment center
-  * Spree::Product
-     * `fulfillment_type` (int)
+* Spree::Store
+ * `latest_periodic_fulfillment_check_at` ⚠️
+* Spree::Order
+ * override finalize! to create empty fulfillment requests, one per unique fulfillment center ⚠️
 
 ## Jobs
 * Prepare fulfillment request
