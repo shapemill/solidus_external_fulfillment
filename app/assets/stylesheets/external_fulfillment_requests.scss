@@ -1,0 +1,38 @@
+#fulfillment-request-container {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+#order-info-table {
+
+}
+
+.preview-image {
+  max-width: 300px
+}
+
+.not_prepared {
+  background-color: #e6e6e6
+}
+
+.pending, .preparing {
+  background-color: #ffe87d
+}
+
+.fulfilled {
+  background-color: #bbe5b3
+}
+
+.preparation_failed {
+  background-color: #ff967b
+}
+
+.table {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.separator {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
