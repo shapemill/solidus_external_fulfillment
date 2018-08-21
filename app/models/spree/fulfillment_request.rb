@@ -40,8 +40,17 @@ class Spree::FulfillmentRequest < ApplicationRecord
       transition [:pending, :preparation_failed, :fulfilled] => :not_prepared
     end
 
+    after_transition to: :not_preared do |fulfillment_request, _|
+      # Destroy any referencing line items when transitioning back to not_prepared
+      fulfillment_request.line_item_fulfillment_instructions.destroy_all
+    end
+
     after_transition to: :pending do |fulfillment_request, _|
       fulfillment_request.notifier.prepared
+    end
+
+    after_transition to: :preparing do |fulfillment_request, _|
+      fulfillment_request.start_preparation_job(fulfillment_request)
     end
 
     after_transition to: :fulfilled do |fulfillment_request, _|
@@ -74,5 +83,19 @@ class Spree::FulfillmentRequest < ApplicationRecord
   def notifier
     class_name = Spree::ExternalFulfillment.fulfillment_request_notifier_class
     class_name.constantize.new(self)
+  end
+
+  def start_preparation_job fulfillment_request
+    Spree::FulfillmentRequestPreparationJob.perform_later(fulfillment_request)
+  end
+
+  def line_items
+    result = []
+    order.line_items.each do |line_item|
+      if line_item.product.fulfillment_type == fulfillment_center.fulfillment_type
+        result << line_item
+      end
+    end
+    result
   end
 end
