@@ -44,14 +44,6 @@
 
 ## Config
 * `FulfillmentRequestPreparer` prepare `fulfillment_request`, `line_items`
-* `FulfillmentCenterAssigner`,  assign `line_item` -> `fulfillment_center` or nil (use `DefaultFulfillmentCenterAssigner`)
 * `PackingSlipRenderer` render `fulfillment_request` -> data
 * `AddressTagRenderer` render `fulfillment_request` -> data
-* `fulfillment_types` enum = [`:dummy_type_one`, `:dummy_type_two`]
 * periodic fulfillment params
-* hash id params (length, salt, alphabet)
-* `FulfillmentRequestNotifyer`
-   * `created` "x items for center y"
-   * `fulfilled`
-   * `prepared` 
-   * `failed_to_prepare`
