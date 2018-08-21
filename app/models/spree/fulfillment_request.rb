@@ -37,16 +37,14 @@ class Spree::FulfillmentRequest < ApplicationRecord
     end
   end
 
-  def self.find_by_hash_id obfuscated_id
+  def self.find_by_hash_id(obfuscated_id)
     id = id_hasher.decode(obfuscated_id).first
     Spree::FulfillmentRequest.find(id)
   end
 
   def hash_id
-    Spree::FulfillmentRequest::id_hasher.encode(self.id)
+    Spree::FulfillmentRequest.id_hasher.encode(id)
   end
-
-  private
 
   def self.id_hasher
     ::Hashids.new(

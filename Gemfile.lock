@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     solidus_external_fulfillment (0.0.1)
+      deface
       hashids
       solidus_core
       state_machines
