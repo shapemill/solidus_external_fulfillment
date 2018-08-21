@@ -1,0 +1,38 @@
+<% admin_layout "full-width" %>
+
+<% admin_breadcrumb(plural_resource_name(Spree::FulfillmentCenter)) %>
+
+<% content_for :page_actions do %>
+  <li>
+    <%= link_to t('spree.new_fulfillment_center'), new_object_url, class: 'btn btn-primary' %>
+  </li>
+<% end if can?(:create, Spree::FulfillmentCenter) %>
+
+<p id="notice"><%= notice %></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Display name</th>
+      <th>Order email</th>
+      <th>Fulfillment type</th>
+      <th>Is default for type</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fulfillment_centers.each do |fulfillment_center| %>
+      <tr>
+        <td><%= fulfillment_center.display_name %></td>
+        <td><%= fulfillment_center.order_email %></td>
+        <td><%= fulfillment_center.fulfillment_type.humanize %></td>
+        <td><%= fulfillment_center.is_default_for_fulfillment_type %></td>
+        <td class="actions">
+          <%= link_to_edit fulfillment_center, no_text: true %>
+          <%= link_to_delete fulfillment_center, no_text: true %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

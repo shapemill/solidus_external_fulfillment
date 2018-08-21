@@ -1,0 +1,14 @@
+<% admin_breadcrumb(link_to plural_resource_name(Spree::FulfillmentCenter)) %>
+
+<% content_for :page_actions do %>
+<% end %>
+
+<%= render partial: 'spree/shared/error_messages', locals: { target: @fulfillment_center } %>
+
+<%= form_for [:admin, @fulfillment_center] do |f| %>
+  <fieldset>
+    <legend align="center"><%= t('spree.edit_fulfillment_center') %></legend>
+    <%= render partial: 'form', locals: { f: f } %>
+    <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+  </fieldset>
+<% end %>
