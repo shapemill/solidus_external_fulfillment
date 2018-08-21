@@ -2,7 +2,7 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
   queue_as :default
 
   def perform(fulfillment_request)
-    fulfillment_request.with_lock do
+    fulfillment_request.with_lock do # TODO: test locking somehow
       raise "Expected fulfillment request in preparing state" if !fulfillment_request.preparing? # TODO: error type
 
       fulfillment_request.line_items.each do |line_item|

@@ -1,59 +1,40 @@
 <table>
- <thead>
-  <tr>
-     <th>Fulfillment center</th>
-     <th>Line item count</th>
-     <th>Fulfillment status</th>
-     <th></th>
-  </tr>
- </thead>
+  <thead>
+    <tr>
+      <th>Fulfillment center</th>
+      <th>Line item count</th>
+      <th>Fulfillment status</th>
+      <th></th>
+    </tr>
+  </thead>
 
- <tbody>
-  <tr>
-     <td>Raffes tryckeri</td>
-     <td>2</td>
-     <td><span class="pill">Not prepared</span></td>
-     <td class="actions">
-      <%= link_to_with_icon "play", nil, "/" %>
-     </td>
-  </tr>
-  <tr>
-     <td>Roffes tryckeri</td>
-     <td>3</td>
-     <td><span class="pill pill-pending">Preparing</span></td>
-     <td class="actions">
-
-     </td>
-  </tr>
-  <tr>
-     <td>Basses tryckeri</td>
-     <td>3</td>
-     <td><span class="pill pill-pending">Pending</span></td>
-     <td class="actions">
-      <%= link_to_with_icon "envelope", nil, "/" %>
-      <%= link_to_with_icon "undo", nil, "/" %>
-      <%= link_to_with_icon "external-link", nil, "/" %>
-     </td>
-  </tr>
-  <tr>
-     <td>Bosses tryckeri</td>
-     <td>3</td>
-     <td><span class="pill pill-active">Fulfilled</span></td>
-     <td class="actions">
-      <%= link_to_with_icon "external-link", nil, "/" %>
-     </td>
-  </tr>
-  <tr>
-     <td>Bosses tryckeri</td>
-     <td>3</td>
-     <td><span class="pill pill-error">Failed</span></td>
-     <td class="actions">
-      <%= link_to_with_icon "undo", nil, "/" %>
-     </td>
-  </tr>
- </tbody>
+  <tbody>
+    <% Spree::FulfillmentRequest.where(order: @order).order(:id).each do |request| %>
+    <tr>
+      <td><%= request.fulfillment_center.display_name %></td>
+      <td><%= request.line_items.count %></td>
+      <td><span class="pill <%= fulfillment_request_pill_class(request) %>"><%= request.state.humanize %></span></td>
+      <td class="actions">
+        <% if request.not_prepared? %>
+          <%= fulfillment_request_prepare_button(request) %>
+        <% elsif request.preparing? %>
+          <% # no actions when preparing %>
+        <% elsif request.pending? %>
+          <%= fulfillment_request_resend_button(request) %>
+          <%= fulfillment_request_reset_button(request) %>
+          <%= fulfillment_request_show_button(request) %>
+        <% elsif request.preparation_failed? %>
+          <%= fulfillment_request_reset_button(request) %>
+        <% elsif request.fulfilled? %>
+          <%= fulfillment_request_show_button(request) %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <div class="text-center">
-    X items require manual fulfillment <%= submit_tag t('spree.actions.ship'), class: "ship-shipment-button" %>
-<div>
+  <%= @order.line_items_with_no_fulfillment_center.length %> items require manual fulfillment
+  <%= submit_tag t('spree.actions.ship'), class: "ship-shipment-button" %>
+</div>

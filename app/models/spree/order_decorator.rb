@@ -15,14 +15,25 @@ module Spree
       end
 
       # For each unique fulfillment center, create a blank fulfillment request
-      fulfillment_center_ids.each do |fulfillment_center_id|
-        next if fulfillment_center_id.nil?
+      Spree::FulfillmentRequest.transaction do
+        fulfillment_center_ids.each do |fulfillment_center_id|
+          next if fulfillment_center_id.nil?
 
-        Spree::FulfillmentRequest.create({
-          spree_fulfillment_center_id: fulfillment_center_id,
-          order: self
-        })
+          Spree::FulfillmentRequest.create({
+            spree_fulfillment_center_id: fulfillment_center_id,
+            order: self
+          })
+        end
       end
+    end
+
+    def line_items_with_no_fulfillment_center
+      result = []
+      line_items.each do |line_item|
+        fulfillment_center = fulfillment_center_for_line_item(line_item)
+        result << fulfillment_center if fulfillment_center.nil?
+      end
+      result
     end
 
     private
