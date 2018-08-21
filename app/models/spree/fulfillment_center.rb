@@ -1,7 +1,7 @@
 class Spree::FulfillmentCenter < ApplicationRecord
-  enum fulfillment_type: [
-    :dummy_type_1, :dummy_type_2
-  ]
+
+  # This enum is defined during engine initialization
+  # enum fulfillment_type
 
   validates :fulfillment_type, presence: true
   validates :is_default_for_fulfillment_type, inclusion: [true, false]
