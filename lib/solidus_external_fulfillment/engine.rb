@@ -13,6 +13,7 @@ module Spree
   module ExternalFulfillment
     # Engine settings
     mattr_accessor :fulfillment_types
+    mattr_accessor :fulfillment_request_notifier_class
 
     class Engine < Rails::Engine
       require 'spree/core'

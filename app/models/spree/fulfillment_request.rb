@@ -7,6 +7,10 @@ class Spree::FulfillmentRequest < ApplicationRecord
     :preparation_failed
   ]
 
+  after_create do
+    notifier_instance.created
+  end
+
   belongs_to :order, class_name: "Spree::Order", foreign_key: "spree_order_id"
   belongs_to :fulfillment_center, class_name: "Spree::FulfillmentCenter", foreign_key: "spree_fulfillment_center_id"
   has_many :line_item_fulfillment_instructions, class_name: "Spree::LineItemFulfillmentInstruction", foreign_key: "spree_fulfillment_request_id"
@@ -35,6 +39,18 @@ class Spree::FulfillmentRequest < ApplicationRecord
     event :reset do
       transition [:pending, :preparation_failed, :fulfilled] => :not_prepared
     end
+
+    after_transition to: :pending do |fulfillment_request, _|
+      fulfillment_request.notifier_instance.prepared
+    end
+
+    after_transition to: :fulfilled do |fulfillment_request, _|
+      fulfillment_request.notifier_instance.fulfilled
+    end
+
+    after_transition to: :fail_preparation do |fulfillment_request, _|
+      fulfillment_request.notifier_instance.failed_to_prepare
+    end
   end
 
   def self.find_by_hash_id(obfuscated_id)
@@ -51,5 +67,10 @@ class Spree::FulfillmentRequest < ApplicationRecord
       "0c0daa78aeec13154c0830e5f6cf44",
       16
     )
+  end
+
+  def notifier_instance
+    class_name = Spree::ExternalFulfillment.fulfillment_request_notifier_class
+    class_name.constantize.new(self)
   end
 end

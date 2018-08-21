@@ -1,5 +1,4 @@
 class Spree::FulfillmentCenter < ApplicationRecord
-
   # This enum is defined during engine initialization
   # enum fulfillment_type
 
