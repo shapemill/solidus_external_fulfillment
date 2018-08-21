@@ -46,6 +46,8 @@ class Spree::FulfillmentRequest < ApplicationRecord
 
     after_transition to: :fulfilled do |fulfillment_request, _|
       fulfillment_request.notifier_instance.fulfilled
+      fulfillment_request.fulfilled_at = DateTime.now
+      fulfillment_request.save!
     end
 
     after_transition to: :fail_preparation do |fulfillment_request, _|
