@@ -10,6 +10,7 @@
 ## Decorations
 * Spree::Store
  * `latest_periodic_fulfillment_check_at` ⚠️
+ * periodic job in progress flag?
 
 ## Jobs
 * Prepare fulfillment request

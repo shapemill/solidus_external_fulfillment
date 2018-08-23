@@ -2,15 +2,13 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
   queue_as :default
 
   def perform(fulfillment_request)
-    begin
-      fulfillment_request.with_lock do
-        process_line_items(fulfillment_request)
-      end
-    rescue StandardError => e
-      # Something went wrong
-      fulfillment_request.preparation_error = e.message
-      fulfillment_request.fail_preparation!
+    fulfillment_request.with_lock do
+      process_line_items(fulfillment_request)
     end
+  rescue StandardError => e
+    # Something went wrong
+    fulfillment_request.preparation_error = e.message
+    fulfillment_request.fail_preparation!
   end
 
   def process_line_items(fulfillment_request)

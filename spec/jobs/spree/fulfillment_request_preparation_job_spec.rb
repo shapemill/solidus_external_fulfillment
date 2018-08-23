@@ -102,5 +102,4 @@ RSpec.describe Spree::FulfillmentRequestPreparationJob, type: :job do
       }.to raise_error(Spree::ExternalFulfillmentError)
     end
   end
-
 end
