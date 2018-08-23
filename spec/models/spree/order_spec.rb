@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 RSpec.describe Spree::Order, type: :model do
+  describe "Completing an order with no fulfillment types" do
+    it "creates no fulfillment requests" do
+      @order = FactoryBot.create(:order_ready_to_complete)
+      @order.complete!
+      expect(@order.fulfillment_requests.count).to eq(0)
+    end
+  end
+
   describe "Completing an order with many fulfillment types" do
     before(:each) do
       @order = FactoryBot.create(:order_with_many_fulfillment_types)
