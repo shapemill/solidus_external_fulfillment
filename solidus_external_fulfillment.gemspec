@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'state_machines'
   s.add_dependency 'hashids'
   s.add_dependency 'deface'
+  s.add_dependency 'redcarpet'
 
   s.add_development_dependency 'ffaker'
   s.add_development_dependency 'factory_bot'

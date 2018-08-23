@@ -1,1 +1,7 @@
-<%= fulfillment_request.fulfillment_center.fulfillment_notes || "No specific instructions" %>
+<% if fulfillment_request.fulfillment_center.fulfillment_notes.nil? %>
+  No specific instructions
+<% else %>
+  <%= ::Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(
+    fulfillment_request.fulfillment_center.fulfillment_notes
+  ).html_safe %>
+<% end %>
