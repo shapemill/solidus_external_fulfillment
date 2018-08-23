@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'deface'
   s.add_dependency 'redcarpet'
 
+  s.add_development_dependency 'byebug'
   s.add_development_dependency 'ffaker'
   s.add_development_dependency 'factory_bot'
   s.add_development_dependency 'capybara'

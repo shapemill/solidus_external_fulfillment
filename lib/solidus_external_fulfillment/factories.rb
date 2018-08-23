@@ -37,4 +37,20 @@ FactoryBot.define do
       end
     end
   end
+
+  factory :order_with_many_fulfillment_types_ready_to_ship, parent: :order_with_many_fulfillment_types do
+    transient do
+      payment_type :credit_card_payment
+    end
+
+    after(:create) do |order, evaluator|
+      order.complete!
+
+      create(evaluator.payment_type, amount: order.total, order: order, state: 'completed')
+      order.shipments.each do |shipment|
+        shipment.update_column('state', 'ready')
+      end
+      order.reload
+    end
+  end
 end

@@ -28,6 +28,48 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
     it "fails if state is waiting_for_fulfillment and there are no associated instructions"
   end
 
+  describe "Fulfilling" do
+    before(:each) do
+      @order = FactoryBot.create(:order_with_many_fulfillment_types_ready_to_ship)
+    end
+
+    describe "a single request of an order" do
+      before(:each) do
+        @order = FactoryBot.create(:order_with_many_fulfillment_types_ready_to_ship)
+        @fulfillment_request = @order.fulfillment_requests.first
+        @fulfillment_request.start_preparation!
+        @fulfillment_request.finish_preparation!
+      end
+
+      it "creates one carton with the right tracking number" do
+        tracking_number = "test-tracking-number"
+        @fulfillment_request.fulfill_with_tracking_number(tracking_number)
+        expect(@order.cartons.count).to eq(1)
+        expect(@order.cartons.first.tracking).to eq(tracking_number)
+      end
+    end
+
+    describe "all requests of an order" do
+      before(:each) do
+        @order.fulfillment_requests.each do |fulfillment_request|
+          fulfillment_request.start_preparation!
+          fulfillment_request.finish_preparation!
+          tracking_number = "test-tracking-number-#{fulfillment_request.id}"
+          fulfillment_request.fulfill_with_tracking_number(tracking_number)
+        end
+      end
+
+      it "creates one carton per request with the right tracking number" do
+        expect(@order.cartons.count).to eq(@order.fulfillment_requests.count)
+        @order.cartons.each_with_index do |carton, index|
+          fulfillment_request = @order.fulfillment_requests[index]
+          tracking_number = "test-tracking-number-#{fulfillment_request.id}"
+          expect(carton.tracking).to eq(tracking_number)
+        end
+      end
+    end
+  end
+
   describe "State transition" do
     describe "start_preparation" do
       it "succeeds if state is not_prepared" do
