@@ -11,7 +11,9 @@ module Spree
       line_items.each do |line_item|
         fulfillment_center = fulfillment_center_for_line_item(line_item)
         next if fulfillment_center.nil?
-        fulfillment_center_ids << fulfillment_center.id
+        center_id = fulfillment_center.id
+        next if fulfillment_center_ids.include?(center_id)
+        fulfillment_center_ids << center_id
       end
 
       # For each unique fulfillment center, create a blank fulfillment request
@@ -27,6 +29,10 @@ module Spree
       end
     end
 
+    def fulfillment_requests
+      Spree::FulfillmentRequest.where(order: self)
+    end
+
     def line_items_with_no_fulfillment_center
       result = []
       line_items.each do |line_item|
@@ -35,8 +41,6 @@ module Spree
       end
       result
     end
-
-    private
 
     def fulfillment_center_for_line_item(line_item)
       class_name = Spree::ExternalFulfillment.fulfillment_center_assigner_class

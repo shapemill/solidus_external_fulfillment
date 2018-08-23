@@ -1,46 +1,32 @@
 require 'spec_helper'
 
 RSpec.describe Spree::Order, type: :model do
-  describe "Completing an order" do
-    describe "with one line item of fulfillment type x" do
-      before(:each) do
-        Spree::FulfillmentCenter.create({
-          display_name: "Type 1 center",
-          order_email: "a@b.c",
-          fulfillment_type: :dummy_type_1
-        })
-        Spree::FulfillmentCenter.create({
-          display_name: "Type 2 center",
-          order_email: "a@b.c",
-          fulfillment_type: :dummy_type_2
-       })
-        @fulfillment_type = "dummy_type_1"
-        @order = FactoryBot.create(:order_ready_to_complete)
-        product = @order.line_items.first.product
-        product.fulfillment_type = @fulfillment_type
-        product.save!
+  describe "Completing an order with many fulfillment types" do
+    before(:each) do
+      @order = FactoryBot.create(:order_with_many_fulfillment_types)
+      @order.complete!
 
-        @order.complete!
+      centers_by_id = {}
+      @order.line_items.each do |line_item|
+        fulfillment_center = @order.fulfillment_center_for_line_item(line_item)
+        next if fulfillment_center.nil?
+        centers_by_id[fulfillment_center.id] = fulfillment_center
       end
+      @uniqe_fulfillment_centers = centers_by_id.values
+    end
 
-      describe "creates one fulfillment request" do
-        before(:each) do
-          @fulfillment_request = Spree::FulfillmentRequest.first
-        end
+    it "creates a number of requests equaling the number of unique fulfullment center" do
+      expect(@uniqe_fulfillment_centers.length).to equal(@order.fulfillment_requests.count)
+    end
 
-        it "and only one request" do
-          expect(Spree::FulfillmentRequest.count).to equal(1)
-        end
-
-        it "associated with the order" do
-          expect(@fulfillment_request.order.id).to equal(@order.id)
-        end
-
-        it "associated with a fulfillment center of the right type" do
-          expect(@fulfillment_request.fulfillment_center.fulfillment_type).to eq(@fulfillment_type)
-        end
+    it "creates one request per fulfillment center" do
+      center_ids = @uniqe_fulfillment_centers.map { |c| c.id }
+      @order.fulfillment_requests.each do |request|
+        center_id = request.fulfillment_center.id
+        expect(center_ids.include?(center_id)).to eq(true)
+        center_ids.delete(center_id)
       end
+      expect(center_ids.length).to eq(0)
     end
   end
-  describe "Completing an order with"
 end

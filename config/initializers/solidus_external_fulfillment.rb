@@ -6,4 +6,4 @@ Spree::ExternalFulfillment.fulfillment_center_assigner_class = "Spree::DefaultFu
 Spree::ExternalFulfillment.line_item_fullfillment_instruction_builder_class = "Spree::DefaultLineItemFulfillmentInstructionBuilder"
 
 # Override this in apps using the extension
-Spree::ExternalFulfillment.fulfillment_types = [:dummy_type_1, :dummy_type_2]
+Spree::ExternalFulfillment.fulfillment_types = [:dummy_type_1, :dummy_type_2, :dummy_type_3, :dummy_type_4]
