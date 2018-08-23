@@ -4,15 +4,12 @@
 
 * FulfillmentCenter
 * FulfillmentRequest__
-  * `address_tag_url` ⚠️
-  * `packing_slip_url` ⚠️ 
+  * `packing_slip_url` ⚠️
 * LineItemFulfillmentInstruction
 
 ## Decorations
 * Spree::Store
  * `latest_periodic_fulfillment_check_at` ⚠️
-* Spree::Order
- * override finalize! to create empty fulfillment requests, one per unique fulfillment center ⚠️
 
 ## Jobs
 * Prepare fulfillment request
@@ -20,14 +17,11 @@
 
 ## Routes
 
-* get ship/[id]
-* put ship/[id]
-* resource fulfillment_centers
+* ship items from fulfillment request
+* ship manual items from order
 
 ## Views
 
-* Custom ship template
-* Fulfillment centers admin tab
 * Overrides
   * Add fulfillment type in product list
   * Add fulfillment type in product edit
@@ -38,12 +32,14 @@
 * PeriodicFulfillmentCheckMailer
 
 ## Misc
-* Hook for getting fulfillment instruction table columns (as overridable partial?)
-* Hook for fulfillment instructions box partial
 * Disable track inventory for products with a fulfillment_type
 
 ## Config
-* `FulfillmentRequestPreparer` prepare `fulfillment_request`, `line_items`
-* `PackingSlipRenderer` render `fulfillment_request` -> data
-* `AddressTagRenderer` render `fulfillment_request` -> data
 * periodic fulfillment params
+
+
+## Factories
+
+### Order
+ * ready to be completed
+ * having 5 line items, 4 of which reference unique fulfillment centers
