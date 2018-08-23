@@ -28,10 +28,9 @@ module Spree
 
       # Prepare requests for each fulfillment center
       requests_by_fulfillment_center_id.each do |fulfillment_center_id, requests|
-        _ = Spree::FulfillmentCenter.find fulfillment_center_id
-        # TODO: check if the requests should be prepared, based on e.g
-        # - line item total
-        # - time since last batch
+        fulfillment_center = Spree::FulfillmentCenter.find fulfillment_center_id
+        next if !fulfillment_checker(fulfillment_center, requests).should_prepare_fulfillment
+
         requests.each do |request|
           preparation_job = Spree::FulfillmentRequestPreparationJob.new
           preparation_job.perform(request)
@@ -56,6 +55,11 @@ module Spree
     def notifier
       notifier_class_name = Spree::ExternalFulfillment.periodic_fulfillment_notifier_class
       notifier_class_name.constantize.new
+    end
+
+    def fulfillment_checker(fulfillment_center, fulfillment_requests)
+      checker_class_name = Spree::ExternalFulfillment.periodic_fulfillment_checker_class
+      checker_class_name.constantize.new(fulfillment_center, fulfillment_requests)
     end
   end
 end

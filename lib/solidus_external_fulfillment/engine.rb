@@ -18,6 +18,7 @@ module Spree
     mattr_accessor :fulfillment_center_assigner_class
     mattr_accessor :line_item_fullfillment_instruction_builder_class
     mattr_accessor :periodic_fulfillment_notifier_class
+    mattr_accessor :periodic_fulfillment_checker_class
 
     class Engine < Rails::Engine
       require 'spree/core'
