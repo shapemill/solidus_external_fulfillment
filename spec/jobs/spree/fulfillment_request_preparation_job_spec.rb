@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 class PackingSlipProvider
-
   def initialize(fulfillment_request)
     @fulfillment_request = fulfillment_request
   end

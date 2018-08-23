@@ -1,7 +1,7 @@
 class Spree::DefaultPeriodicFulfillmentChecker
   def initialize(fulfillment_center, fulfillment_requests)
     @fulfillment_center = fulfillment_center
-    @fulfillment_requests = fulfillment_request
+    @fulfillment_requests = fulfillment_requests
   end
 
   def should_prepare_fulfillment

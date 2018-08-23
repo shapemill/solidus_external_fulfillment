@@ -102,7 +102,7 @@ class Spree::FulfillmentRequest < ApplicationRecord
     result
   end
 
-  def fulfill_with_tracking_number tracking_number
+  def fulfill_with_tracking_number(tracking_number)
     shipment = order.shipments.first
     order.shipping.ship(
       inventory_units: line_items.map { |l| l.inventory_units.first },
