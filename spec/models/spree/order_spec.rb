@@ -16,7 +16,7 @@ RSpec.describe Spree::Order, type: :model do
 
       centers_by_id = {}
       @order.line_items.each do |line_item|
-        fulfillment_center = @order.fulfillment_center_for_line_item(line_item)
+        fulfillment_center = line_item.assigned_fulfillment_center
         next if fulfillment_center.nil?
         centers_by_id[fulfillment_center.id] = fulfillment_center
       end

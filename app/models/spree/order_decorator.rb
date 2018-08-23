@@ -9,7 +9,7 @@ module Spree
       # associated with this order
       fulfillment_center_ids = []
       line_items.each do |line_item|
-        fulfillment_center = fulfillment_center_for_line_item(line_item)
+        fulfillment_center = line_item.assigned_fulfillment_center
         next if fulfillment_center.nil?
         center_id = fulfillment_center.id
         next if fulfillment_center_ids.include?(center_id)
@@ -48,16 +48,10 @@ module Spree
     def line_items_with_no_fulfillment_center
       result = []
       line_items.each do |line_item|
-        fulfillment_center = fulfillment_center_for_line_item(line_item)
+        fulfillment_center = line_item.assigned_fulfillment_center
         result << line_item if fulfillment_center.nil?
       end
       result
-    end
-
-    def fulfillment_center_for_line_item(line_item)
-      class_name = Spree::ExternalFulfillment.fulfillment_center_assigner_class
-      assigner = class_name.constantize.new(line_item)
-      assigner.fulfillment_center
     end
   end
 end
