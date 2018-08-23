@@ -1,6 +1,6 @@
 module Spree::OrdersHelper
-  def fulfillment_request_pill_class fulfillment_request
-    if fulfillment_request.pending?
+  def fulfillment_request_pill_class(fulfillment_request)
+    if fulfillment_request.waiting_for_fulfillment?
       "pill-pending"
     elsif fulfillment_request.preparing?
       "pill-pending"
@@ -11,7 +11,7 @@ module Spree::OrdersHelper
     end
   end
 
-  def fulfillment_request_prepare_button fulfillment_request
+  def fulfillment_request_prepare_button(fulfillment_request)
     link_to_with_icon(
       "play",
       nil,
@@ -21,7 +21,7 @@ module Spree::OrdersHelper
     )
   end
 
-  def fulfillment_request_reset_button fulfillment_request
+  def fulfillment_request_reset_button(fulfillment_request)
     link_to_with_icon(
       "undo",
       nil,
@@ -31,7 +31,7 @@ module Spree::OrdersHelper
     )
   end
 
-  def fulfillment_request_show_button fulfillment_request
+  def fulfillment_request_show_button(fulfillment_request)
     link_to_with_icon(
       "external-link",
       nil,
@@ -40,7 +40,7 @@ module Spree::OrdersHelper
     )
   end
 
-  def fulfillment_request_resend_button fulfillment_request
+  def fulfillment_request_resend_button(fulfillment_request)
     email = fulfillment_request.fulfillment_center.order_email
     link_to_with_icon(
       "envelope",

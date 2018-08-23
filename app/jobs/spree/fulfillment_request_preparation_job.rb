@@ -29,5 +29,4 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
     )
     instruction_builder.build
   end
-
 end

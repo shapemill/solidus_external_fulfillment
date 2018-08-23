@@ -19,7 +19,7 @@
           <%= fulfillment_request_prepare_button(request) %>
         <% elsif request.preparing? %>
           <% # no actions when preparing %>
-        <% elsif request.pending? %>
+        <% elsif request.waiting_for_fulfillment? %>
           <%= fulfillment_request_resend_button(request) %>
           <%= fulfillment_request_reset_button(request) %>
           <%= fulfillment_request_show_button(request) %>

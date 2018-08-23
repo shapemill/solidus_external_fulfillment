@@ -25,7 +25,7 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
       expect(@valid_record).to be_invalid
     end
 
-    it "fails if state is pending and there are no associated instructions"
+    it "fails if state is waiting_for_fulfillment and there are no associated instructions"
   end
 
   describe "State transition" do
@@ -41,8 +41,8 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
           @valid_record.start_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
       end
-      it "fails if state is pending" do
-        @valid_record.state = :pending
+      it "fails if state is waiting_for_fulfillment" do
+        @valid_record.state = :waiting_for_fulfillment
         expect {
           @valid_record.start_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
@@ -74,8 +74,8 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
           @valid_record.fail_preparation!
         }.to_not raise_error
       end
-      it "fails if state is pending" do
-        @valid_record.state = :pending
+      it "fails if state is waiting_for_fulfillment" do
+        @valid_record.state = :waiting_for_fulfillment
         expect {
           @valid_record.fail_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
@@ -107,8 +107,8 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
           @valid_record.finish_preparation!
         }.to_not raise_error
       end
-      it "fails if state is pending" do
-        @valid_record.state = :pending
+      it "fails if state is waiting_for_fulfillment" do
+        @valid_record.state = :waiting_for_fulfillment
         expect {
           @valid_record.finish_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
@@ -140,8 +140,8 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
           @valid_record.fulfill!
         }.to raise_error(StateMachines::InvalidTransition)
       end
-      it "succeeds if state is pending" do
-        @valid_record.state = :pending
+      it "succeeds if state is waiting_for_fulfillment" do
+        @valid_record.state = :waiting_for_fulfillment
         expect {
           @valid_record.fulfill!
         }.to_not raise_error
@@ -173,8 +173,8 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
           @valid_record.reset!
         }.to raise_error(StateMachines::InvalidTransition)
       end
-      it "fails if state is pending" do
-        @valid_record.state = :pending
+      it "fails if state is waiting_for_fulfillment" do
+        @valid_record.state = :waiting_for_fulfillment
         expect {
           @valid_record.reset!
         }.to_not raise_error

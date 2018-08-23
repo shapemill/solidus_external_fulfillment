@@ -2,7 +2,7 @@ class Spree::FulfillmentRequest < ApplicationRecord
   enum state: [
     :not_prepared,
     :preparing,
-    :pending,
+    :waiting_for_fulfillment,
     :fulfilled,
     :preparation_failed
   ]
@@ -29,15 +29,15 @@ class Spree::FulfillmentRequest < ApplicationRecord
     end
 
     event :finish_preparation do
-      transition preparing: :pending
+      transition preparing: :waiting_for_fulfillment
     end
 
     event :fulfill do
-      transition pending: :fulfilled
+      transition waiting_for_fulfillment: :fulfilled
     end
 
     event :reset do
-      transition [:pending, :preparation_failed, :fulfilled] => :not_prepared
+      transition [:waiting_for_fulfillment, :preparation_failed, :fulfilled] => :not_prepared
     end
 
     after_transition to: :not_preared do |fulfillment_request, _|
@@ -45,7 +45,7 @@ class Spree::FulfillmentRequest < ApplicationRecord
       fulfillment_request.line_item_fulfillment_instructions.destroy_all
     end
 
-    after_transition to: :pending do |fulfillment_request, _|
+    after_transition to: :waiting_for_fulfillment do |fulfillment_request, _|
       fulfillment_request.notifier.prepared
     end
 
@@ -85,7 +85,7 @@ class Spree::FulfillmentRequest < ApplicationRecord
     class_name.constantize.new(self)
   end
 
-  def start_preparation_job fulfillment_request
+  def start_preparation_job(fulfillment_request)
     Spree::FulfillmentRequestPreparationJob.perform_later(fulfillment_request)
   end
 

@@ -8,5 +8,4 @@ class Spree::DefaultLineItemFulfillmentInstructionBuilder
     sleep 2
     puts "Spree::DefaultLineItemFulfillmentInstructionBuilder: Done preparing!"
   end
-
 end
