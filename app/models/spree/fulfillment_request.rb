@@ -104,12 +104,14 @@ class Spree::FulfillmentRequest < ApplicationRecord
 
   def fulfill_with_tracking_number(tracking_number)
     shipment = order.shipments.first
-    order.shipping.ship(
+    carton = order.shipping.ship(
       inventory_units: line_items.map { |l| l.inventory_units.first },
       stock_location: shipment.stock_location,
       address: order.shipping_address,
       shipping_method: shipment.shipping_method,
       tracking_number: tracking_number
     )
+    carton.fulfillment_request = self
+    carton.save!
   end
 end

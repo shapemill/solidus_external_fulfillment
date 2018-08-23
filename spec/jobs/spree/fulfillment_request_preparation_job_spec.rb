@@ -85,6 +85,7 @@ RSpec.describe Spree::FulfillmentRequestPreparationJob, type: :job do
 
     describe "with the default packing slip provider" do
       before(:each) do
+        Spree::ExternalFulfillment.packing_slip_provider_class = "Spree::DefaultPackingSlipProvider"
         job.perform(@fulfillment_request)
       end
 

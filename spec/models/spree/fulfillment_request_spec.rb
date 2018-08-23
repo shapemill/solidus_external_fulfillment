@@ -39,13 +39,18 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
         @fulfillment_request = @order.fulfillment_requests.first
         @fulfillment_request.start_preparation!
         @fulfillment_request.finish_preparation!
+        @tracking_number = "test-tracking-number"
+        @fulfillment_request.fulfill_with_tracking_number(@tracking_number)
       end
 
       it "creates one carton with the right tracking number" do
-        tracking_number = "test-tracking-number"
-        @fulfillment_request.fulfill_with_tracking_number(tracking_number)
         expect(@order.cartons.count).to eq(1)
-        expect(@order.cartons.first.tracking).to eq(tracking_number)
+        expect(@order.cartons.first.tracking).to eq(@tracking_number)
+      end
+
+      it "creates a carton referencing the request" do
+        carton_count = Spree::Carton.where(fulfillment_request: @fulfillment_request).count
+        expect(carton_count).to eq(1)
       end
     end
 
@@ -65,6 +70,14 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
           fulfillment_request = @order.fulfillment_requests[index]
           tracking_number = "test-tracking-number-#{fulfillment_request.id}"
           expect(carton.tracking).to eq(tracking_number)
+        end
+      end
+
+      it "creates one carton referencing each request" do
+        @order.cartons.each_with_index do |_, index|
+          fulfillment_request = @order.fulfillment_requests[index]
+          carton_count = Spree::Carton.where(fulfillment_request: fulfillment_request).count
+          expect(carton_count).to eq(1)
         end
       end
     end
