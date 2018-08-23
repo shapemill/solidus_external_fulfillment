@@ -139,13 +139,14 @@
 
   <div class="row">
     <div class="col-sm">
-      <%= text_field "OMG", "OMG", placeholder: "Tracking number", class: "fullwidth form-control" %>
-      <%= link_to 'Mark as shipped',
-        @fulfillment_request.hash_id,
-        method: :put,
-        data: { confirm: "Are you sure?" },
-        class: "btn btn-block btn-success"
-      %>
+      <%= form_tag(@fulfillment_request.hash_id, method: "put", class: "mark-as-shipped-form") do %>
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+        <%= text_field_tag :tracking_number, nil, class: "fullwidth form-control", placeholder: "Tracking number (optional)" %>
+        <%= submit_tag 'Mark order as shipped',
+          data: { confirm: "Are you sure?" },
+          class: "btn btn-block btn-success"
+        %>
+      <% end %>
     </div>
   </div>
 </div>
