@@ -1,5 +1,6 @@
 Rails.application.config.assets.precompile += %w( external_fulfillment_request.css )
 
+Spree::ExternalFulfillment.packing_slip_provider_class = "Spree::DefaultPackingSlipProvider"
 Spree::ExternalFulfillment.periodic_fulfillment_notifier_class = "Spree::DefaultPeriodicFulfillmentNotifier"
 Spree::ExternalFulfillment.fulfillment_request_notifier_class = "Spree::DefaultFulfillmentRequestNotifier"
 Spree::ExternalFulfillment.fulfillment_center_assigner_class = "Spree::DefaultFulfillmentCenterAssigner"

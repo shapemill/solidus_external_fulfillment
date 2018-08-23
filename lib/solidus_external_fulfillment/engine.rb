@@ -12,6 +12,7 @@ end
 module Spree
   module ExternalFulfillment
     # Engine settings
+    mattr_accessor :packing_slip_provider_class
     mattr_accessor :fulfillment_types
     mattr_accessor :fulfillment_request_notifier_class
     mattr_accessor :fulfillment_center_assigner_class

@@ -3,6 +3,7 @@ class CreateSpreeFulfillmentRequests < ActiveRecord::Migration[5.2]
     create_table :spree_fulfillment_requests do |t|
       t.integer :state, null: false
       t.text :preparation_error
+      t.text :packing_slip_url
       t.datetime :fulfilled_at
       t.timestamps
     end

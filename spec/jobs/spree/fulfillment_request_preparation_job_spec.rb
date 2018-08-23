@@ -1,5 +1,16 @@
 require 'spec_helper'
 
+class PackingSlipProvider
+
+  def initialize(fulfillment_request)
+    @fulfillment_request = fulfillment_request
+  end
+
+  def packing_slip_url
+    "test_packing_slip_url"
+  end
+end
+
 class LineItemFulfillmentInstructionBuilder
   def initialize(line_item_fulfillment_instruction)
     @line_item_fulfillment_instruction = line_item_fulfillment_instruction
@@ -70,6 +81,27 @@ RSpec.describe Spree::FulfillmentRequestPreparationJob, type: :job do
 
       it "creates one line item instruction per line item" do
         expect(@fulfillment_request.line_items.length).to eq(@fulfillment_request.line_item_fulfillment_instructions.count)
+      end
+    end
+
+    describe "with the default packing slip provider" do
+      before(:each) do
+        job.perform(@fulfillment_request)
+      end
+
+      it "does not set the packing slip url" do
+        expect(@fulfillment_request.packing_slip_url).to be_nil
+      end
+    end
+
+    describe "with a custom packing slip provider" do
+      before(:each) do
+        Spree::ExternalFulfillment.packing_slip_provider_class = "PackingSlipProvider"
+        job.perform(@fulfillment_request)
+      end
+
+      it "sets the packing slip url" do
+        expect(@fulfillment_request.packing_slip_url).to eq("test_packing_slip_url")
       end
     end
   end

@@ -40,6 +40,9 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
       fulfillment_request.line_item_fulfillment_instructions << line_item_instruction
     end
 
+    # Generate packing slip through customizable hook
+    fulfillment_request.packing_slip_url = packing_slip_url(fulfillment_request)
+
     fulfillment_request.finish_preparation!
   end
 
@@ -49,5 +52,11 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
       line_item_fulfillment_instructions
     )
     instruction_builder.build
+  end
+
+  def packing_slip_url(fulfillment_request)
+    packing_slip_provider_class_name = Spree::ExternalFulfillment.packing_slip_provider_class
+    provider = packing_slip_provider_class_name.constantize.new(fulfillment_request)
+    provider.packing_slip_url
   end
 end
