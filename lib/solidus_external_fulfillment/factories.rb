@@ -23,7 +23,7 @@ FactoryBot.define do
       }
     end
 
-    after(:create) do |order, evaluator|
+    after(:create) do |order, _|
       fulfillment_types_and_nil = Spree::ExternalFulfillment.fulfillment_types + [nil]
       order.line_items.each_with_index do |line_item, index|
         fulfillment_type = fulfillment_types_and_nil[index % fulfillment_types_and_nil.length]
