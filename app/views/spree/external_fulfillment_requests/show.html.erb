@@ -33,10 +33,10 @@
     </div>
   </div>
 
-  <hr class="separator">
+   <hr class="separator">
 
   <div class="row">
-    <div class="col-sm">
+    <div class="col-sm-6">
       <h3>Shipping address</h3>
       <table class="table table-bordered table-striped table-sm">
         <tbody>
@@ -79,24 +79,45 @@
           </tr>
         </tbody>
       </table>
-
-      <h3>Shipping method</h3>
-      <p>TODO</p>
     </div>
-    <div class="col-sm">
 
-      <h3>Instructions</h3>
-      <div class="card">
-        <div class="card-body">
-          <%= render partial: "notes_box", locals: { fulfillment_request: @fulfillment_request }  %>
-        </div>
-      </div>
-
-      <button type="button" class="btn btn-block">Download packing slip</button>
+    <div class="col-sm-6">
+      <h3>Shipping info</h3>
+      <table class="table table-bordered table-striped table-sm">
+        <tbody>
+          <tr>
+            <th scope="row">Shipping method</th>
+            <td>
+              <%= @fulfillment_request.order.shipping_address.first_name %>
+                <%= @fulfillment_request.order.shipping_address.last_name %>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Packing slip</th>
+            <td>
+              <%= @fulfillment_request.packing_slip_url.nil? ? "None" : link_to("Download", @fulfillment_request.packing_slip_url, class: "btn-sm btn-primary") %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
   <hr class="separator">
+
+  <% if !@fulfillment_request.fulfillment_center.fulfillment_notes.blank? %>
+    <div class="row">
+      <div class="col-lg">
+        <div class="card">
+          <div class="card-body fulfillment-notes-box">
+            <%= render partial: "notes_box", locals: { fulfillment_request: @fulfillment_request }  %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="separator">
+  <% end %>
 
   <div class="row">
     <div class="col-sm">
@@ -118,6 +139,7 @@
 
   <div class="row">
     <div class="col-sm">
+      <%= text_field "OMG", "OMG", placeholder: "Tracking number", class: "fullwidth form-control" %>
       <%= link_to 'Mark as shipped',
         @fulfillment_request.hash_id,
         method: :put,
