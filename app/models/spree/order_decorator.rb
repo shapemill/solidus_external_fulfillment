@@ -29,6 +29,7 @@ module Spree
       end
     end
 
+    # TODO: make this an association
     def fulfillment_requests
       Spree::FulfillmentRequest.where(order: self)
     end

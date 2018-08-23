@@ -46,7 +46,10 @@ class Spree::FulfillmentRequest < ApplicationRecord
     end
 
     after_transition to: :waiting_for_fulfillment do |fulfillment_request, _|
+      # Call the custom notifier
       fulfillment_request.notifier.prepared
+      # Send notification email to the fulfillment center
+      Spree::FulfillmentRequestMailer.with(fulfillment_request: fulfillment_request).fulfillment_request_email.deliver_later
     end
 
     after_transition to: :preparing do |fulfillment_request, _|

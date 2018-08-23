@@ -1,0 +1,5 @@
+Hi!
+
+There's a new order from <%= @fulfillment_request.order.store.name %> waiting for fulfillment
+
+View the order at <%= external_fulfillment_request_url(@fulfillment_request.hash_id) %>

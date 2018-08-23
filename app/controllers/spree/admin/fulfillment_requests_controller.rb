@@ -13,7 +13,8 @@ class Spree::Admin::FulfillmentRequestsController < Spree::Admin::BaseController
 
   def resend
     @fulfillment_request = Spree::FulfillmentRequest.find params[:id]
-    # TODO: send the email
+    Spree::FulfillmentRequestMailer.with(fulfillment_request: @fulfillment_request).fulfillment_request_email.deliver_later
+    #TODO: set flash?
     redirect_to edit_admin_order_url(@fulfillment_request.order)
   end
 end

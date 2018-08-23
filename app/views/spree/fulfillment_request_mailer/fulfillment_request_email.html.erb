@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>
+      Hi!
+    </p>
+    <p>
+      There's a new order from <%= @fulfillment_request.order.store.name %> waiting for fulfillment<br><br>
+      View the order at <a href="<%= external_fulfillment_request_url(@fulfillment_request.hash_id) %>"><%= external_fulfillment_request_url(@fulfillment_request.hash_id) %></a>
+    </p>
+    <p>Thanks!</p>
+  </body>
+</html>
