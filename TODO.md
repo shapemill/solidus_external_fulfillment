@@ -1,46 +1,13 @@
 # `solidus_external_fulfillment`
 
-## Models
-
-* FulfillmentCenter
-* FulfillmentRequest__
-  * `packing_slip_url` ⚠️
-* LineItemFulfillmentInstruction
-
-## Decorations
-* Spree::Store
- * `latest_periodic_fulfillment_check_at` ⚠️
- * periodic job in progress flag?
-
-## Jobs
-* Prepare fulfillment request
-* Periodic fulfillment + `PeriodicFulfillmentJobChecker`
-
-## Routes
-
-* ship items from fulfillment request
-* ship manual items from order
-
-## Views
-
-* Overrides
+## TODO
+* `PeriodicFulfillmentJobChecker`
+* `latest_periodic_fulfillment_check_at` <- move this to fulfillment center? latest_batch_at?
+* periodic job in progress flag?
+* shipping
+  * route ship items from fulfillment request
+  * route ship manual items from order
+* view overrides
   * Add fulfillment type in product list
   * Add fulfillment type in product edit
-
-## Mailers
-
-* FulfillmentRequestMailer
-* PeriodicFulfillmentCheckMailer
-
-## Misc
 * Disable track inventory for products with a fulfillment_type
-
-## Config
-* periodic fulfillment params
-
-
-## Factories
-
-### Order
- * ready to be completed
- * having 5 line items, 4 of which reference unique fulfillment centers
