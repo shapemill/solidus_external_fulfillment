@@ -13,7 +13,12 @@
     <tr>
       <td><%= request.fulfillment_center.display_name %></td>
       <td><%= request.line_items.count %></td>
-      <td><span class="pill <%= fulfillment_request_pill_class(request) %>"><%= request.state.humanize %></span></td>
+      <td>
+        <span class="pill <%= fulfillment_request_pill_class(request) %>"><%= request.state.humanize %></span>
+        <% if request.preparation_failed? %>
+          <small> <%= request.preparation_error %> </small>
+        <% end %>
+      </td>
       <td class="actions">
         <% if request.not_prepared? %>
           <%= fulfillment_request_prepare_button(request) %>
