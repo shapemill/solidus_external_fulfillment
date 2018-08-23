@@ -7,6 +7,10 @@
       <table id="order-info-table" class="table table-sm table-borderless">
         <tbody>
           <tr>
+            <th scope="col">From</th>
+            <td><%= @fulfillment_request.order.store.name %></td>
+          </tr>
+          <tr>
             <th scope="col">Placed</th>
             <td><%= @fulfillment_request.created_at %></td>
           </tr>
