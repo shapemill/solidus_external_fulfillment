@@ -5,6 +5,8 @@ Spree::Core::Engine.routes.draw do
     resources :fulfillment_centers do
     end
 
+    put 'orders/:id/ship_manual', to: 'orders#ship_items_with_no_fulfillment_center', as: :order_ship_manual_items
+
     put 'fulfillment_requests/:id/start_preparation', to: 'fulfillment_requests#start_preparation', as: :fulfillment_request_start_preparation
     put 'fulfillment_requests/:id/reset', to: 'fulfillment_requests#reset', as: :fulfillment_request_reset
     post 'fulfillment_requests/:id/resend', to: 'fulfillment_requests#resend', as: :fulfillment_request_resend

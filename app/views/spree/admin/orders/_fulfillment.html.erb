@@ -3,7 +3,7 @@
 <div class="text-center">
   <% manual_items = @order.line_items_with_no_fulfillment_center %>
   <% if !manual_items.empty? %>
-    <%= form_tag("TODO", method: "put") do %>
+    <%= form_tag(admin_order_ship_manual_items_url(@order), method: "put") do %>
       <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
       <table>
         <tbody>
