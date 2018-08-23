@@ -37,4 +37,24 @@ RSpec.describe Spree::Order, type: :model do
       expect(center_ids.length).to eq(0)
     end
   end
+
+  describe "Shipping line items with no fulfillment types" do
+    before(:each) do
+      @tracking_number = "hello-tracking"
+      @order = FactoryBot.create(:order_with_many_fulfillment_types_ready_to_ship)
+      @order.ship_line_items_with_no_fulfillment_center(@tracking_number)
+    end
+
+    describe "creates one carton" do
+      it "and only one carton" do
+        expect(@order.cartons.count).to eq(1)
+      end
+      it "with the right tracking number" do
+        expect(@order.cartons.first.tracking).to eq(@tracking_number)
+      end
+      it "with the right number of inventory untits" do
+        expect(@order.cartons.first.inventory_units.count).to eq(@order.line_items_with_no_fulfillment_center.length)
+      end
+    end
+  end
 end

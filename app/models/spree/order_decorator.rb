@@ -34,11 +34,22 @@ module Spree
       Spree::FulfillmentRequest.where(order: self)
     end
 
+    def ship_line_items_with_no_fulfillment_center(tracking_number)
+      shipment = shipments.first
+      shipping.ship(
+        inventory_units: line_items_with_no_fulfillment_center.map { |l| l.inventory_units.first },
+        stock_location: shipment.stock_location,
+        address: shipping_address,
+        shipping_method: shipment.shipping_method,
+        tracking_number: tracking_number
+      )
+    end
+
     def line_items_with_no_fulfillment_center
       result = []
       line_items.each do |line_item|
         fulfillment_center = fulfillment_center_for_line_item(line_item)
-        result << fulfillment_center if fulfillment_center.nil?
+        result << line_item if fulfillment_center.nil?
       end
       result
     end
