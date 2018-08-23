@@ -1,38 +1,69 @@
-<div data-hook="admin_option_type_form_fields" class="align-center row">
-  <div class="col-3">
-    <%= f.field_container :display_name do %>
-      <%= f.label :display_name, class: 'required' %><br />
-      <%= f.text_field :display_name, class: "fullwidth" %>
-      <%= f.error_message_on :display_name %>
-    <% end %>
+<div data-hook="admin_option_type_form_fields" class="align-center">
+  <div class="row">
+    <div class="col-4">
+      <%= f.field_container :display_name do %>
+        <%= f.label :display_name, class: 'required' %><br />
+        <%= f.text_field :display_name, class: "fullwidth" %>
+        <%= f.error_message_on :display_name %>
+      <% end %>
+    </div>
+
+    <div class="col-4">
+      <%= f.field_container :order_email do %>
+        <%= f.label :order_email, class: 'required' %><br />
+        <%= f.text_field :order_email, class: "fullwidth" %>
+        <%= f.error_message_on :order_email %>
+      <% end %>
+    </div>
+
+    <div class="col-4">
+      <%= f.field_container :fulfillment_type do %>
+        <%= f.label :fulfillment_type, class: 'required' %><br />
+        <%= f.select(
+          :fulfillment_type,
+          Spree::Product.fulfillment_types.keys.map { |w| [w.humanize, w] },
+          { include_blank: false },
+          { class: 'custom-select'}
+        )%>
+        <%= f.error_message_on :fulfillment_type %>
+      <% end %>
+    </div>
   </div>
 
-  <div class="col-3">
-    <%= f.field_container :order_email do %>
-      <%= f.label :order_email, class: 'required' %><br />
-      <%= f.text_field :order_email, class: "fullwidth" %>
-      <%= f.error_message_on :order_email %>
-    <% end %>
+  <div class="row">
+    <div class="col-4">
+      <%= f.field_container :is_default_for_fulfillment_type do %>
+        <%= f.label :is_default_for_fulfillment_type, class: 'required' %><br />
+        <%= f.check_box :is_default_for_fulfillment_type, class: "fullwidth" %>
+        <%= f.error_message_on :is_default_for_fulfillment_type %>
+      <% end %>
+    </div>
+
+    <div class="col-4">
+      <%= f.field_container :periodic_fulfillment_cost_threshold do %>
+        <%= f.label :periodic_fulfillment_cost_threshold, class: 'required' %><br />
+        <%= f.number_field :periodic_fulfillment_cost_threshold, class: "fullwidth" %>
+        <%= f.error_message_on :periodic_fulfillment_cost_threshold %>
+      <% end %>
+    </div>
+    <div class="col-4">
+      <%= f.field_container :periodic_fulfillment_time_threshold do %>
+        <%= f.label :periodic_fulfillment_time_threshold, class: 'required' %><br />
+        <%= f.number_field :periodic_fulfillment_time_threshold, class: "fullwidth" %>
+        <%= f.error_message_on :periodic_fulfillment_time_threshold %>
+      <% end %>
+    </div>
   </div>
 
-  <div class="col-3">
-    <%= f.field_container :fulfillment_type do %>
-      <%= f.label :fulfillment_type, class: 'required' %><br />
-      <%= f.select(
-        :fulfillment_type,
-        Spree::Product.fulfillment_types.keys.map { |w| [w.humanize, w] },
-        { include_blank: false },
-        { class: 'custom-select'}
-      )%>
-      <%= f.error_message_on :fulfillment_type %>
-    <% end %>
-  </div>
-
-  <div class="col-3">
-    <%= f.field_container :is_default_for_fulfillment_type do %>
-      <%= f.label :is_default_for_fulfillment_type, class: 'required' %><br />
-      <%= f.check_box :is_default_for_fulfillment_type, class: "fullwidth" %>
-      <%= f.error_message_on :is_default_for_fulfillment_type %>
-    <% end %>
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+      <%= f.field_container :fulfillment_notes do %>
+        <%= f.label :fulfillment_notes %><br />
+        <%= f.text_area :fulfillment_notes, class: 'fullwidth fulfillment-notes' %><br />
+        <%= f.error_message_on :fulfillment_notes %>
+      <% end %>
+    </div>
+    <div class="col-2"></div>
   </div>
 </div>

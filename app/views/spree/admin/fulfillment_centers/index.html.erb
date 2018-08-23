@@ -14,9 +14,9 @@
   <thead>
     <tr>
       <th>Display name</th>
-      <th>Order email</th>
       <th>Fulfillment type</th>
       <th>Is default for type</th>
+      <th>Latest periodic fulfillment job at</th>
       <th></th>
     </tr>
   </thead>
@@ -25,9 +25,9 @@
     <% @fulfillment_centers.each do |fulfillment_center| %>
       <tr>
         <td><%= fulfillment_center.display_name %></td>
-        <td><%= fulfillment_center.order_email %></td>
         <td><%= fulfillment_center.fulfillment_type.humanize %></td>
         <td><%= fulfillment_center.is_default_for_fulfillment_type %></td>
+        <td><%= fulfillment_center.latest_periodic_fulfillment_job_at %></td>
         <td class="actions">
           <%= link_to_edit fulfillment_center, no_text: true %>
           <%= link_to_delete fulfillment_center, no_text: true %>
