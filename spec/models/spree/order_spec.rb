@@ -15,7 +15,7 @@ RSpec.describe Spree::Order, type: :model do
       @uniqe_fulfillment_centers = centers_by_id.values
     end
 
-    it "creates a number of requests equaling the number of unique fulfullment center" do
+    it "creates a number of requests equaling the number of unique fulfullment centers" do
       expect(@uniqe_fulfillment_centers.length).to equal(@order.fulfillment_requests.count)
     end
 
