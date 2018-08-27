@@ -1,5 +1,5 @@
 module Spree
-  class PeriodicFulfillmentPreparationJobInvocation < ApplicationRecord
+  class FulfillmentPreparationBatchJobInvocation < ApplicationRecord
     enum state: [
       :running,
       :finished,

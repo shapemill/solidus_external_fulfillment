@@ -6,7 +6,7 @@ class Spree::DefaultPeriodicFulfillmentChecker
 
   def should_prepare_fulfillment
     cost_threshold_reached = true
-    cost_threshold = @fulfillment_center.periodic_fulfillment_cost_threshold
+    cost_threshold = @fulfillment_center.batch_fulfillment_cost_threshold
     if cost_threshold > 0
       total_cost_price = 0
       @fulfillment_requests.each do |fulfillment_request|
@@ -18,12 +18,12 @@ class Spree::DefaultPeriodicFulfillmentChecker
     end
 
     time_threshold_reached = true
-    time_threshold = fulfillment_center.periodic_fulfillment_cost_threshold
+    time_threshold = fulfillment_center.batch_fulfillment_cost_threshold
     if time_threshold > 0
-      if @fulfillment_center.latest_periodic_fulfillment_at.nil?
+      if @fulfillment_center.latest_batch_fulfillment_at.nil?
         time_threshold_reached = true
       else
-        time_since_latest_job = DateTime.now.to_f - @fulfillment_center.latest_periodic_fulfillment_job_at.to_f
+        time_since_latest_job = DateTime.now.to_f - @fulfillment_center.latest_batch_fulfillment_job_at.to_f
         time_threshold_reached = time_since_latest_job > time_threshold
       end
     end

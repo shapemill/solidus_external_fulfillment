@@ -40,17 +40,17 @@
     </div>
 
     <div class="col-4">
-      <%= f.field_container :periodic_fulfillment_cost_threshold do %>
-        <%= f.label :periodic_fulfillment_cost_threshold, class: 'required' %><br />
-        <%= f.number_field :periodic_fulfillment_cost_threshold, class: "fullwidth" %>
-        <%= f.error_message_on :periodic_fulfillment_cost_threshold %>
+      <%= f.field_container :batch_fulfillment_cost_threshold do %>
+        <%= f.label :batch_fulfillment_cost_threshold, class: 'required' %><br />
+        <%= f.number_field :batch_fulfillment_cost_threshold, class: "fullwidth" %>
+        <%= f.error_message_on :batch_fulfillment_cost_threshold %>
       <% end %>
     </div>
     <div class="col-4">
-      <%= f.field_container :periodic_fulfillment_time_threshold do %>
-        <%= f.label :periodic_fulfillment_time_threshold, class: 'required' %><br />
-        <%= f.number_field :periodic_fulfillment_time_threshold, class: "fullwidth" %>
-        <%= f.error_message_on :periodic_fulfillment_time_threshold %>
+      <%= f.field_container :batch_fulfillment_time_threshold do %>
+        <%= f.label :batch_fulfillment_time_threshold, class: 'required' %><br />
+        <%= f.number_field :batch_fulfillment_time_threshold, class: "fullwidth" %>
+        <%= f.error_message_on :batch_fulfillment_time_threshold %>
       <% end %>
     </div>
   </div>

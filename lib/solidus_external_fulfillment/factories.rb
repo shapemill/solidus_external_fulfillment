@@ -54,15 +54,15 @@ FactoryBot.define do
     end
   end
 
-  factory :periodic_fulfillment_preparation_job_invocation, class: 'Spree::PeriodicFulfillmentPreparationJobInvocation' do
+  factory :fulfillment_preparation_batch_job_invocation, class: 'Spree::FulfillmentPreparationBatchJobInvocation' do
   end
 
-  factory :finished_periodic_fulfillment_preparation_job_invocation, class: 'Spree::PeriodicFulfillmentPreparationJobInvocation' do
+  factory :finished_fulfillment_preparation_batch_job_invocation, class: 'Spree::FulfillmentPreparationBatchJobInvocation' do
     state { :finished }
     running_time { 5.5 }
   end
 
-  factory :failed_periodic_fulfillment_preparation_job_invocation, class: 'Spree::PeriodicFulfillmentPreparationJobInvocation' do
+  factory :failed_fulfillment_preparation_batch_job_invocation, class: 'Spree::FulfillmentPreparationBatchJobInvocation' do
     state { :failed }
     error_message { "test error message" }
   end

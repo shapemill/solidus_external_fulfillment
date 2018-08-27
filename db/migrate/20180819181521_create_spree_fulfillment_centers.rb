@@ -6,9 +6,9 @@ class CreateSpreeFulfillmentCenters < ActiveRecord::Migration[5.2]
       t.text :display_name, null: false
       t.text :order_email, null: false
       t.text :fulfillment_notes
-      t.integer :periodic_fulfillment_cost_threshold, default: 0, null: false
-      t.integer :periodic_fulfillment_time_threshold, default: 0, null: false
-      t.datetime :latest_periodic_fulfillment_job_at
+      t.integer :batch_fulfillment_cost_threshold, default: 0, null: false
+      t.integer :batch_fulfillment_time_threshold, default: 0, null: false
+      t.datetime :latest_batch_fulfillment_job_at
 
       t.timestamps
     end

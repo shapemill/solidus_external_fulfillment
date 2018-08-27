@@ -1,12 +1,12 @@
 module Spree
-  class PeriodicFulfillmentPreparationJob < ApplicationJob
+  class FulfillmentPreparationBatchJob < ApplicationJob
     queue_as :default
 
     def perform(*_args)
       # Create an invocation record describing the progress of this job
       invocation = create_invocation_record
       if invocation.nil?
-        raise PeriodicFulfillmentPreparationInProgressError.new(
+        raise FulfillmentPreparationBatchInProgressError.new(
           "Periodic fulfillment preparation job already in progress"
         )
       end
@@ -64,7 +64,7 @@ module Spree
       invocation.state = :finished
       invocation.running_time = DateTime.now.to_f - invocation.created_at.to_f
       invocation.save!
-    rescue PeriodicFulfillmentPreparationInProgressError
+    rescue FulfillmentPreparationBatchInProgressError
       # Another job is already in progress. Let the world know
       raise
     rescue StandardError => e
@@ -78,12 +78,12 @@ module Spree
     end
 
     def notifier
-      notifier_class_name = Spree::ExternalFulfillment.periodic_fulfillment_notifier_class
+      notifier_class_name = Spree::ExternalFulfillment.batch_fulfillment_notifier_class
       notifier_class_name.constantize.new
     end
 
     def fulfillment_checker(fulfillment_center, fulfillment_requests)
-      checker_class_name = Spree::ExternalFulfillment.periodic_fulfillment_checker_class
+      checker_class_name = Spree::ExternalFulfillment.batch_fulfillment_checker_class
       checker_class_name.constantize.new(fulfillment_center, fulfillment_requests)
     end
 
@@ -94,14 +94,14 @@ module Spree
           # If running on postgres, lock the invocations table for writing before
           # preforming the check. The lock is automatically released at the end
           # of the containing transaction
-          table_name = Spree::PeriodicFulfillmentPreparationJobInvocation.table_name
+          table_name = Spree::FulfillmentPreparationBatchJobInvocation.table_name
           ActiveRecord::Base.connection.execute("LOCK #{table_name} IN ACCESS EXCLUSIVE MODE")
         end
 
-        if Spree::PeriodicFulfillmentPreparationJobInvocation.running.empty?
+        if Spree::FulfillmentPreparationBatchJobInvocation.running.empty?
           # No jobs are running
           # Create an invocation record for keeping track of the progress of this job
-          invocation = Spree::PeriodicFulfillmentPreparationJobInvocation.create
+          invocation = Spree::FulfillmentPreparationBatchJobInvocation.create
         end
       end
       invocation
