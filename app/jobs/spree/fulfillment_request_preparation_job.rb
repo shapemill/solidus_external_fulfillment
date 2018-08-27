@@ -5,6 +5,10 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
     fulfillment_request.with_lock do
       process_line_items(fulfillment_request)
     end
+  rescue Spree::FulfillmentRequestAlreadyPreparedError => e
+    # Silently ignore attempts to prepare already prepared
+    # fulfillment requests. This may happen when the same request
+    # is being prepared concurrently from different threads
   rescue StandardError => e
     # Something went wrong
     fulfillment_request.preparation_error = e.message
@@ -12,6 +16,16 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
   end
 
   def process_line_items(fulfillment_request)
+    if (
+      fulfillment_request.waiting_for_fulfillment? ||
+      fulfillment_request.fulfilled? ||
+      fulfillment_request.preparation_failed?
+    )
+    raise Spree::FulfillmentRequestAlreadyPreparedError.new(
+        "Attempting to re-prepare fulfillment request in state #{fulfillment_request.state}"
+      )
+    end
+
     if !fulfillment_request.preparing?
       raise Spree::ExternalFulfillmentError.new(
         "Expected fulfillment request in preparing state when starting fulfillment job"

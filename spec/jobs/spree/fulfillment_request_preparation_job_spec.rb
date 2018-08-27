@@ -106,10 +106,6 @@ RSpec.describe Spree::FulfillmentRequestPreparationJob, type: :job do
     end
   end
 
-  describe "concurrently" do
-    it "processes the request sequentially"
-  end
-
   describe "processing line items" do
     it "succeeds if the request is in the preparing state and has line items" do
       expect {
@@ -122,6 +118,27 @@ RSpec.describe Spree::FulfillmentRequestPreparationJob, type: :job do
       expect {
         job.process_line_items @fulfillment_request
       }.to raise_error(Spree::ExternalFulfillmentError)
+    end
+
+    it "fails with FulfillmentRequestAlreadyPreparedError if the request is waiting_for_fulfillment" do
+      @fulfillment_request.state = :waiting_for_fulfillment
+      expect {
+        job.process_line_items @fulfillment_request
+      }.to raise_error(Spree::FulfillmentRequestAlreadyPreparedError)
+    end
+
+    it "fails with FulfillmentRequestAlreadyPreparedError if the request is fulfilled" do
+      @fulfillment_request.state = :fulfilled
+      expect {
+        job.process_line_items @fulfillment_request
+      }.to raise_error(Spree::FulfillmentRequestAlreadyPreparedError)
+    end
+
+    it "fails with FulfillmentRequestAlreadyPreparedError if the request is preparation_failed" do
+      @fulfillment_request.state = :preparation_failed
+      expect {
+        job.process_line_items @fulfillment_request
+      }.to raise_error(Spree::FulfillmentRequestAlreadyPreparedError)
     end
 
     it "fails if the request does not have any associated line items" do
