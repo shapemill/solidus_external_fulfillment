@@ -40,7 +40,7 @@ RSpec.describe Spree::FulfillmentRequestPreparationJob, type: :job do
   subject(:job) { Spree::FulfillmentRequestPreparationJob.new }
 
   before(:each) do
-    @fulfillment_request = FactoryBot.create(:spree_fulfillment_request)
+    @fulfillment_request = FactoryBot.create(:fulfillment_request)
     @fulfillment_request.order.line_items.each do |line_item|
       line_item.product.fulfillment_type = @fulfillment_request.fulfillment_center.fulfillment_type
       line_item.product.save!

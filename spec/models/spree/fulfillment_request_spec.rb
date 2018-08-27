@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Spree::FulfillmentRequest, type: :model do
   before(:each) do
-    @valid_record = FactoryBot.create(:spree_fulfillment_request)
+    @valid_record = FactoryBot.create(:fulfillment_request)
   end
 
   describe "Validation" do

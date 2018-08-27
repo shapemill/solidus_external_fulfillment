@@ -10,7 +10,7 @@ FactoryBot.define do
     order_email { "test@example.com" }
   end
 
-  factory :spree_fulfillment_request, class: 'Spree::FulfillmentRequest' do
+  factory :fulfillment_request, class: 'Spree::FulfillmentRequest' do
     state { :not_prepared }
     association :order, factory: :order_ready_to_ship
     association :fulfillment_center, factory: :spree_fulfillment_center
@@ -52,5 +52,19 @@ FactoryBot.define do
       end
       order.reload
     end
+  end
+
+  factory :periodic_fulfillment_preparation_job_invocation, class: 'Spree::PeriodicFulfillmentPreparationJobInvocation' do
+
+  end
+
+  factory :finished_periodic_fulfillment_preparation_job_invocation, class: 'Spree::PeriodicFulfillmentPreparationJobInvocation' do
+    state :finished
+    running_time 5.5
+  end
+
+  factory :failed_periodic_fulfillment_preparation_job_invocation, class: 'Spree::PeriodicFulfillmentPreparationJobInvocation' do
+    state :failed
+    error_message "test error message"
   end
 end

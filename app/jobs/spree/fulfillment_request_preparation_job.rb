@@ -21,7 +21,7 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
       fulfillment_request.fulfilled? ||
       fulfillment_request.preparation_failed?
     )
-    raise Spree::FulfillmentRequestAlreadyPreparedError.new(
+      raise Spree::FulfillmentRequestAlreadyPreparedError.new(
         "Attempting to re-prepare fulfillment request in state #{fulfillment_request.state}"
       )
     end

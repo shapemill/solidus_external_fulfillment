@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Spree::LineItemFulfillmentInstruction, type: :model do
   before(:each) do
-    @fulfillment_request = FactoryBot.create(:spree_fulfillment_request)
+    @fulfillment_request = FactoryBot.create(:fulfillment_request)
     @valid_record = Spree::LineItemFulfillmentInstruction.create({
       fulfillment_request: @fulfillment_request,
       line_item: @fulfillment_request.order.line_items.first
