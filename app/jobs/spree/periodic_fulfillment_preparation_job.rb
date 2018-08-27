@@ -94,7 +94,8 @@ module Spree
           # If running on postgres, lock the invocations table for writing before
           # preforming the check. The lock is automatically released at the end
           # of the containing transaction
-          ActiveRecord::Base.connection.execute('LOCK table_name IN ACCESS EXCLUSIVE MODE')
+          table_name = Spree::PeriodicFulfillmentPreparationJobInvocation.table_name
+          ActiveRecord::Base.connection.execute("LOCK #{table_name} IN ACCESS EXCLUSIVE MODE")
         end
 
         if Spree::PeriodicFulfillmentPreparationJobInvocation.running.empty?
