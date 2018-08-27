@@ -6,8 +6,10 @@ en:
     admin:
       tab:
         fulfillment_centers: "Fulfillment centers"
+        fulfillment_preparation_batch_jobs: "Batch jobs"
     new_fulfillment_center: "New fulfillment center"
     edit_fulfillment_center: "Edit fulfillment center"
+    start_fulfillment_preparation_batch_job: "Start new job"
   activerecord:
     models:
       spree/fulfillment_center:

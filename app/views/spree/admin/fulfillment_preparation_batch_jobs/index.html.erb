@@ -1,0 +1,43 @@
+<% admin_layout "full-width" %>
+
+<% admin_breadcrumb("Fulfillment preparation batch jobs") %>
+
+<% content_for :page_actions do %>
+  <li>
+    <%= link_to(
+      t('spree.start_fulfillment_preparation_batch_job'),
+      admin_start_fulfillment_preparation_batch_job_url,
+      class: 'btn btn-primary',
+      method: :post
+    )
+    %>
+  </li>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Started at</th>
+      <th>State</th>
+      <th>Reset count</th>
+      <th>Failed count</th>
+      <th>Prepared count</th>
+      <th>Running time</th>
+      <th>Error message</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @invocations.each do |invocation| %>
+      <tr>
+        <td><%= invocation.created_at %></td>
+        <td><span class="pill job-pill-<%= invocation.state %> "><%= invocation.state.humanize %></span></td>
+        <td><%= invocation.reset_count %></td>
+        <td><%= invocation.failed_count %></td>
+        <td><%= invocation.prepared_count %></td>
+        <td><%= invocation.running_time %></td>
+        <td><%= invocation.error_message %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
