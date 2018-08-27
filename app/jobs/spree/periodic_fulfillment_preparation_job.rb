@@ -65,9 +65,8 @@ module Spree
       invocation.running_time = DateTime.now.to_f - invocation.created_at.to_f
       invocation.save!
     rescue PeriodicFulfillmentPreparationInProgressError => e
-      # Another job is already in progress. Nothing further
-      puts e
-      raise "OMGOMGOMG"
+      # Another job is already in progress. Let the world know
+      raise
     rescue StandardError => e
       # let the notifier know what went wrong
       notifier.failed(e)
@@ -91,14 +90,14 @@ module Spree
     def create_invocation_record
       invocation = nil
       ActiveRecord::Base.transaction do
-        if ActiveRecord::Base.connection.instance_of? ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
+        if ActiveRecord::Base.connection.adapter_name.downcase.include?('postgres')
           # If running on postgres, lock the invocations table for writing before
           # preforming the check. The lock is automatically released at the end
           # of the containing transaction
           ActiveRecord::Base.connection.execute('LOCK table_name IN ACCESS EXCLUSIVE MODE')
         end
 
-        if Spree::PeriodicFulfillmentPreparationJobInvocation.running.count == 0
+        if Spree::PeriodicFulfillmentPreparationJobInvocation.running.empty?
           # No jobs are running
           # Create an invocation record for keeping track of the progress of this job
           invocation = Spree::PeriodicFulfillmentPreparationJobInvocation.create
