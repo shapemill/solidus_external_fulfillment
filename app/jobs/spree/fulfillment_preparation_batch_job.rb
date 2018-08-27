@@ -91,7 +91,7 @@ module Spree
       invocation = nil
       ActiveRecord::Base.transaction do
         if ActiveRecord::Base.connection.adapter_name.downcase.include?('postgres')
-          # If running on postgres, lock the invocations table for writing before
+          # If running on postgres, lock the invocations table before
           # preforming the check. The lock is automatically released at the end
           # of the containing transaction
           table_name = Spree::FulfillmentPreparationBatchJobInvocation.table_name
