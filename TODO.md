@@ -5,4 +5,4 @@
 * periodic job checker tests
 * periodic fulfillment job tests
 * Disable track inventory for products with a fulfillment_type (via variant)
-* Button to rebuild fulfillment requests (execept fulfilled ones)?
+* Button to reassign non-started fulfillment requests
