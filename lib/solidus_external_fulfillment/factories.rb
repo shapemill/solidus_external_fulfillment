@@ -58,12 +58,12 @@ FactoryBot.define do
   end
 
   factory :finished_periodic_fulfillment_preparation_job_invocation, class: 'Spree::PeriodicFulfillmentPreparationJobInvocation' do
-    state :finished
-    running_time 5.5
+    state { :finished }
+    running_time { 5.5 }
   end
 
   factory :failed_periodic_fulfillment_preparation_job_invocation, class: 'Spree::PeriodicFulfillmentPreparationJobInvocation' do
-    state :failed
-    error_message "test error message"
+    state { :failed }
+    error_message { "test error message" }
   end
 end
