@@ -4,7 +4,7 @@ FactoryBot.define do
   # Example adding this to your spec_helper will load these Factories for use:
   # require 'solidus_external_fulfillment/factories'
 
-  factory :spree_fulfillment_center, class: 'Spree::FulfillmentCenter' do
+  factory :fulfillment_center, class: 'Spree::FulfillmentCenter' do
     fulfillment_type { :dummy_type_1 }
     display_name { "Test center" }
     order_email { "test@example.com" }
@@ -13,7 +13,7 @@ FactoryBot.define do
   factory :fulfillment_request, class: 'Spree::FulfillmentRequest' do
     state { :not_prepared }
     association :order, factory: :order_ready_to_ship
-    association :fulfillment_center, factory: :spree_fulfillment_center
+    association :fulfillment_center, factory: :fulfillment_center
   end
 
   factory :order_with_many_fulfillment_types, parent: :order_ready_to_complete do
