@@ -58,7 +58,7 @@ FactoryBot.define do
   end
 
   factory :finished_periodic_fulfillment_preparation_job_invocation, class: 'Spree::PeriodicFulfillmentPreparationJobInvocation' do
-    state { :finished }
+    state { :finished }
     running_time { 5.5 }
   end
 
