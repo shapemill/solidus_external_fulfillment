@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe Spree::PeriodicFulfillmentPreparationJob, type: :job do
-
   subject(:job) { Spree::PeriodicFulfillmentPreparationJob.new }
 
   before(:each) do
@@ -13,7 +12,7 @@ RSpec.describe Spree::PeriodicFulfillmentPreparationJob, type: :job do
       expect(job.invocation_record).to_not eq(nil)
     end
     it "is not created if running record(s) exist" do
-      other_invocation = FactoryBot.create(:periodic_fulfillment_preparation_job_invocation)
+      FactoryBot.create(:periodic_fulfillment_preparation_job_invocation)
       expect(job.invocation_record).to eq(nil)
     end
   end

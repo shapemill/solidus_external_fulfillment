@@ -9,6 +9,8 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
     # Silently ignore attempts to prepare already prepared
     # fulfillment requests. This may happen when the same request
     # is being prepared concurrently from different threads
+    puts e
+    raise "OMGOMGOMG"
   rescue StandardError => e
     # Something went wrong
     fulfillment_request.preparation_error = e.message
@@ -16,11 +18,7 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
   end
 
   def process_line_items(fulfillment_request)
-    if (
-      fulfillment_request.waiting_for_fulfillment? ||
-      fulfillment_request.fulfilled? ||
-      fulfillment_request.preparation_failed?
-    )
+    if fulfillment_request.waiting_for_fulfillment? || fulfillment_request.fulfilled? || fulfillment_request.preparation_failed?
       raise Spree::FulfillmentRequestAlreadyPreparedError.new(
         "Attempting to re-prepare fulfillment request in state #{fulfillment_request.state}"
       )

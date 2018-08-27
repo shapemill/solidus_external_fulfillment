@@ -66,6 +66,8 @@ module Spree
       invocation.save!
     rescue PeriodicFulfillmentPreparationInProgressError => e
       # Another job is already in progress. Nothing further
+      puts e
+      raise "OMGOMGOMG"
     rescue StandardError => e
       # let the notifier know what went wrong
       notifier.failed(e)
@@ -87,6 +89,7 @@ module Spree
     end
 
     def create_invocation_record
+      invocation = nil
       ActiveRecord::Base.transaction do
         if ActiveRecord::Base.connection.instance_of? ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
           # If running on postgres, lock the invocations table for writing before
