@@ -64,7 +64,7 @@ module Spree
       invocation.state = :finished
       invocation.running_time = DateTime.now.to_f - invocation.created_at.to_f
       invocation.save!
-    rescue PeriodicFulfillmentPreparationInProgressError => e
+    rescue PeriodicFulfillmentPreparationInProgressError
       # Another job is already in progress. Let the world know
       raise
     rescue StandardError => e

@@ -5,12 +5,13 @@ class Spree::FulfillmentRequestPreparationJob < ApplicationJob
     fulfillment_request.with_lock do
       process_line_items(fulfillment_request)
     end
-  rescue Spree::FulfillmentRequestAlreadyPreparedError => e
+  rescue Spree::FulfillmentRequestAlreadyPreparedError
     # Silently ignore attempts to prepare already prepared
     # fulfillment requests. This may happen when the same request
     # is being prepared concurrently from different threads
+    raise
   rescue StandardError => e
-    # Something went wrong
+    # Something went wrong preparing the request
     fulfillment_request.preparation_error = e.message
     fulfillment_request.fail_preparation!
   end
