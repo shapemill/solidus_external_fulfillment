@@ -24,7 +24,7 @@ module Spree
 
       # Gather requests by fulfillment center id
       requests_by_fulfillment_center_id = {}
-      Spree::FulfillmentRequest.where(state: :not_started).all do |request|
+      Spree::FulfillmentRequest.where(state: :not_prepared).find_each(batch_size: 10) do |request|
         center_id = request.fulfillment_center.id
         request.start_preparation!
         requests = requests_by_fulfillment_center_id[center_id] || []
@@ -33,23 +33,22 @@ module Spree
       end
 
       # For each fulfillment center, use customizable hook
-      # to see if requests should be prepared
+      # to select requests for preparation and prepare those
+      # requests
       requests_by_fulfillment_center_id.each do |fulfillment_center_id, requests|
         fulfillment_center = Spree::FulfillmentCenter.find fulfillment_center_id
         next if !fulfillment_checker(fulfillment_center, requests).should_prepare_fulfillment
 
         requests.each do |request|
-          requests_to_prepare << request
-        end
-      end
+          preparation_job = Spree::FulfillmentRequestPreparationJob.new
+          preparation_job.perform(request)
+          invocation.prepared_count += 1 if preparation_job.waiting_for_fulfillment?
+          invocation.failed_count += 1 if preparation_job.preparation_failed?
+          invocation.save!
 
-      # Prepare the requests
-      requests_to_prepare.each do |request|
-        preparation_job = Spree::FulfillmentRequestPreparationJob.new
-        preparation_job.perform(request)
-        invocation.prepared_count += 1 if preparation_job.waiting_for_fulfillment?
-        invocation.failed_count += 1 if preparation_job.preparation_failed?
-        invocation.save!
+          fulfillment_center.latest_batch_fulfillment_at = DateTime.now
+          fulfillment_center.save!
+        end
       end
 
       # let the notifier know we're done
