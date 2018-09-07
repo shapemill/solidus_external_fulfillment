@@ -1,7 +1,5 @@
 module Spree
   class FulfillmentPreparationBatchJob < ApplicationJob
-    queue_as :default
-
     def perform(*_args)
       # Create an invocation record describing the progress of this job
       invocation = create_invocation_record
