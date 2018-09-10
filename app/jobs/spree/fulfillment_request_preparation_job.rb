@@ -38,11 +38,18 @@ class Spree::FulfillmentRequestPreparationJob < Spree::ApplicationJob
 
     # Iterate over the request's line items
     line_items.each do |line_item|
-      # Create a new instruction for this line item
-      line_item_instruction = Spree::LineItemFulfillmentInstruction.new({
+      # Find existing instruction for this line item, or create a new record
+      # if none exists
+      line_item_instruction = Spree::LineItemFulfillmentInstruction.find_by(
         line_item: line_item,
         fulfillment_request: fulfillment_request
-      })
+      )
+      if line_item_instruction.nil?
+        line_item_instruction = Spree::LineItemFulfillmentInstruction.new({
+          line_item: line_item,
+          fulfillment_request: fulfillment_request
+        })
+      end
       # Call customizable hook for preparing the instructions
       build_instructions(line_item_instruction)
       # Save the instructions

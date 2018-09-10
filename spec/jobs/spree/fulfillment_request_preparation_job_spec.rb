@@ -49,6 +49,17 @@ RSpec.describe Spree::FulfillmentRequestPreparationJob, type: :job do
   end
 
   describe "performing job" do
+    describe "a second time" do
+      it "does not create additional instructions" do
+        job.perform(@fulfillment_request)
+        instruction_count = @fulfillment_request.line_item_fulfillment_instructions.count
+        @fulfillment_request.reset!
+        @fulfillment_request.start_preparation!
+        job.perform(@fulfillment_request)
+        expect(instruction_count).to eq(@fulfillment_request.line_item_fulfillment_instructions.count)
+      end
+    end
+
     describe "with a failing instruction builder" do
       before(:each) do
         Spree::ExternalFulfillment.line_item_fullfillment_instruction_builder_class = "FailingLineItemFulfillmentInstructionBuilder"
