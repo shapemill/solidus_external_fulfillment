@@ -113,5 +113,6 @@ class Spree::FulfillmentRequest < ApplicationRecord
     )
     carton.fulfillment_request = self
     carton.save!
+    fulfill!
   end
 end

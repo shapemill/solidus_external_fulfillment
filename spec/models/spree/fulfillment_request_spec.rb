@@ -41,6 +41,7 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
         @fulfillment_request.finish_preparation!
         @tracking_number = "test-tracking-number"
         @fulfillment_request.fulfill_with_tracking_number(@tracking_number)
+        @fulfillment_request.reload!
       end
 
       it "creates one carton with the right tracking number" do
@@ -51,6 +52,10 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
       it "creates a carton referencing the request" do
         carton_count = Spree::Carton.where(fulfillment_request: @fulfillment_request).count
         expect(carton_count).to eq(1)
+      end
+
+      it "marks the request as fulfilled" do
+        expect(@fulfillment_request.state).to eq("fulfilled")
       end
     end
 
