@@ -2,7 +2,7 @@ module Spree
   class FulfillmentRequestMailer < ApplicationMailer
     def fulfillment_request_email
       @fulfillment_request = params[:fulfillment_request]
-      fulfillment_center = fulfillment_request.fulfillment_center
+      fulfillment_center = @fulfillment_request.fulfillment_center
       order = @fulfillment_request.order
       store = order.store
       mail(
