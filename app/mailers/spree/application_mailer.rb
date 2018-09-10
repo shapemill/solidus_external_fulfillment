@@ -1,5 +1,5 @@
 module Spree
   class ApplicationMailer < ActionMailer::Base
-    layout 'mailer'
+    layout 'spree/mailer'
   end
 end
