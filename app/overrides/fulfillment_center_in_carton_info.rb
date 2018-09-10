@@ -10,7 +10,7 @@ Deface::Override.new(
       <% if carton.fulfillment_request.nil? %>
         None
       <% else %>
-        <%= carton.fulfillment_request.fulfillment_center.name %>
+        <%= carton.fulfillment_request.fulfillment_center.display_name %>
       <% end %>
     </td>
   </tr>'
