@@ -24,7 +24,6 @@ module Spree
       requests_by_fulfillment_center_id = {}
       Spree::FulfillmentRequest.where(state: :not_prepared).find_each(batch_size: 10) do |request|
         center_id = request.fulfillment_center.id
-        request.start_preparation!
         requests = requests_by_fulfillment_center_id[center_id] || []
         requests << request
         requests_by_fulfillment_center_id[center_id] = requests
@@ -39,12 +38,13 @@ module Spree
 
         requests.each do |request|
           preparation_job = Spree::FulfillmentRequestPreparationJob.new
+          request.start_preparation!
           preparation_job.perform(request)
-          invocation.prepared_count += 1 if preparation_job.waiting_for_fulfillment?
-          invocation.failed_count += 1 if preparation_job.preparation_failed?
+          invocation.prepared_count += 1 if request.waiting_for_fulfillment?
+          invocation.failed_count += 1 if request.preparation_failed?
           invocation.save!
 
-          fulfillment_center.latest_batch_fulfillment_at = DateTime.now
+          fulfillment_center.latest_batch_fulfillment_job_at = DateTime.now
           fulfillment_center.save!
         end
       end
@@ -99,6 +99,11 @@ module Spree
           # No jobs are running
           # Create an invocation record for keeping track of the progress of this job
           invocation = Spree::FulfillmentPreparationBatchJobInvocation.create
+
+          # Reset counters
+          invocation.failed_count = 0
+          invocation.reset_count = 0
+          invocation.prepared_count = 0
         end
       end
       invocation

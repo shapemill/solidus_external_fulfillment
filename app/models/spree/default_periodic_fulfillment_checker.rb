@@ -18,7 +18,7 @@ class Spree::DefaultPeriodicFulfillmentChecker
     end
 
     time_threshold_reached = true
-    time_threshold = fulfillment_center.batch_fulfillment_cost_threshold
+    time_threshold = @fulfillment_center.batch_fulfillment_cost_threshold
     if time_threshold > 0
       if @fulfillment_center.latest_batch_fulfillment_at.nil?
         time_threshold_reached = true
