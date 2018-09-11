@@ -20,6 +20,7 @@ module Spree
     mattr_accessor :line_item_fullfillment_instruction_builder_class
     mattr_accessor :batch_fulfillment_notifier_class
     mattr_accessor :batch_fulfillment_checker_class
+    mattr_accessor :hash_id_salt
 
     class Engine < Rails::Engine
       require 'spree/core'

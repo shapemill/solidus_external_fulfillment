@@ -78,7 +78,7 @@ class Spree::FulfillmentRequest < ApplicationRecord
 
   def self.id_hasher
     ::Hashids.new(
-      "0c0daa78aeec13154c0830e5f6cf44",
+      Spree::ExternalFulfillment.hash_id_salt,
       16
     )
   end
