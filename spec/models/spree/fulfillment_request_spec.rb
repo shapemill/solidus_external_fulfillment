@@ -41,7 +41,7 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
         @fulfillment_request.finish_preparation!
         @tracking_number = "test-tracking-number"
         @fulfillment_request.fulfill_with_tracking_number(@tracking_number)
-        @fulfillment_request.reload!
+        @fulfillment_request.reload
       end
 
       it "creates one carton with the right tracking number" do
