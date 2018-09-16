@@ -1,5 +1,4 @@
 class Spree::FulfillmentRequestPreparationJob < Spree::ApplicationJob
-
   def perform(fulfillment_request)
     fulfillment_request.with_lock do
       process_line_items(fulfillment_request)

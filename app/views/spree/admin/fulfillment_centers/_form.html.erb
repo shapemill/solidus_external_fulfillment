@@ -32,6 +32,32 @@
 
   <div class="row">
     <div class="col-4">
+      <%= f.field_container :enable_order_page_http_auth do %>
+        <%= f.label :enable_order_page_http_auth, class: 'required' %><br />
+        <%= f.check_box :enable_order_page_http_auth, class: "fullwidth" %>
+        <%= f.error_message_on :enable_order_page_http_auth %>
+      <% end %>
+    </div>
+
+    <div class="col-4">
+      <%= f.field_container :order_page_username do %>
+        <%= f.label :order_page_username %><br />
+        <%= f.text_field :order_page_username, class: "fullwidth" %>
+        <%= f.error_message_on :order_page_username %>
+      <% end %>
+    </div>
+
+    <div class="col-4">
+      <%= f.field_container :order_page_password do %>
+        <%= f.label :order_page_password %><br />
+        <%= f.text_field :order_page_password, class: "fullwidth" %>
+        <%= f.error_message_on :order_page_password %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
       <%= f.field_container :is_default_for_fulfillment_type do %>
         <%= f.label :is_default_for_fulfillment_type, class: 'required' %><br />
         <%= f.check_box :is_default_for_fulfillment_type, class: "fullwidth" %>

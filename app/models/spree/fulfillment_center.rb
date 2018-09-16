@@ -7,6 +7,8 @@ class Spree::FulfillmentCenter < ApplicationRecord
   validates :display_name, presence: true
   validates :display_name, presence: true
   validates :order_email, presence: true
+  validates :order_page_username, presence: true, if: :enable_order_page_http_auth
+  validates :order_page_password, presence: true, if: :enable_order_page_http_auth
 
   before_save do
     refresh_default_flags

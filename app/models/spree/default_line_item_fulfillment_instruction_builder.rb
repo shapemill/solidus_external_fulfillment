@@ -4,8 +4,8 @@ class Spree::DefaultLineItemFulfillmentInstructionBuilder
   end
 
   def build
-    #puts "Spree::DefaultLineItemFulfillmentInstructionBuilder: Preparing to do work"
+    # puts "Spree::DefaultLineItemFulfillmentInstructionBuilder: Preparing to do work"
     sleep 0.3
-    #puts "Spree::DefaultLineItemFulfillmentInstructionBuilder: Done preparing!"
+    # puts "Spree::DefaultLineItemFulfillmentInstructionBuilder: Done preparing!"
   end
 end

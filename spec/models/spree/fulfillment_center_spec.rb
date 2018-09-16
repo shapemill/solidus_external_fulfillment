@@ -29,6 +29,25 @@ RSpec.describe Spree::FulfillmentCenter, type: :model do
       @valid_record.is_default_for_fulfillment_type = nil
       expect(@valid_record).to be_invalid
     end
+
+    describe "when http auth is enabled" do
+      before(:each) do
+        @valid_record.enable_order_page_http_auth = true
+        @valid_record.order_page_username = "hello"
+        @valid_record.order_page_password = "password"
+      end
+      it "succeeds if username and password are set" do
+        expect(@valid_record).to be_valid
+      end
+      it "fails if username is blank" do
+        @valid_record.order_page_username = ""
+        expect(@valid_record).to be_invalid
+      end
+      it "fails if password is blank" do
+        @valid_record.order_page_password = ""
+        expect(@valid_record).to be_invalid
+      end
+    end
   end
 
   describe "Default flag" do

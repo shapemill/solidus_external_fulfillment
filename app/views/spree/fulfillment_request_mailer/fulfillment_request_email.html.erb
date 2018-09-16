@@ -13,6 +13,12 @@
     <p>
       View the order at <a href="<%= external_fulfillment_request_url(@fulfillment_request.hash_id) %>"><%= external_fulfillment_request_url(@fulfillment_request.hash_id) %></a>
     </p>
+    <% if @fulfillment_center.enable_order_page_http_auth? %>
+    <p>
+      Username: <%= @fulfillment_center.order_page_username %>
+      Password: <%= @fulfillment_center.order_page_password %>
+    </p>
+    <% end %>
     <p>Thanks!</p>
   </body>
 </html>

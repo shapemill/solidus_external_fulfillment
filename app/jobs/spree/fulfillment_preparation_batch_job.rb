@@ -10,8 +10,6 @@ module Spree
       end
 
       # If we made it here, there are no other jobs running in parallel.
-      # Start gathering requests to prepare
-      requests_to_prepare = []
 
       # Reset any requests that previously failed preparation
       Spree::FulfillmentRequest.where(state: :preparation_failed).find_each(batch_size: 10) do |request|
