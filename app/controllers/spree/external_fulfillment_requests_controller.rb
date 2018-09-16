@@ -3,6 +3,7 @@
 class Spree::ExternalFulfillmentRequestsController < ApplicationController
   layout 'external_fulfillment_request'
 
+  before_action :set_fulfillment_request
   before_action :http_authenticate
 
   def http_authenticate
@@ -16,10 +17,14 @@ class Spree::ExternalFulfillmentRequestsController < ApplicationController
     end
   end
 
-  def show
+  def set_fulfillment_request
     @fulfillment_request = Spree::FulfillmentRequest.find_by_hash_id(
       params[:hash_id]
     )
+  end
+
+  def show
+    #
   end
 
   def fulfill
