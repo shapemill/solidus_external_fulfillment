@@ -104,8 +104,12 @@ class Spree::FulfillmentRequest < ApplicationRecord
 
   def fulfill_with_tracking_number(tracking_number)
     shipment = order.shipments.first
+    inventory_units = []
+    line_items.each do |line_item|
+      inventory_units += line_item.inventory_units
+    end
     carton = order.shipping.ship(
-      inventory_units: line_items.map { |l| l.inventory_units.first },
+      inventory_units: inventory_units,
       stock_location: shipment.stock_location,
       address: order.shipping_address,
       shipping_method: shipment.shipping_method,
