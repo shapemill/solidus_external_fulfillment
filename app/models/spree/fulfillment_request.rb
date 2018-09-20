@@ -67,8 +67,8 @@ class Spree::FulfillmentRequest < ApplicationRecord
     end
   end
 
-  def self.find_by_hash_id(obfuscated_id)
-    id = id_hasher.decode(obfuscated_id).first
+  def self.find_by_hash_id(hash_id)
+    id = id_hasher.decode(hash_id).first
     Spree::FulfillmentRequest.find(id)
   end
 
