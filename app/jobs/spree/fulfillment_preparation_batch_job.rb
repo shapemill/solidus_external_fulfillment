@@ -48,12 +48,7 @@ module Spree
       end
 
       # let the notifier know we're done
-      notifier.finished(
-        prepared_count: invocation.prepared_count,
-        failed_count: invocation.failed_count,
-        reset_count: invocation.reset_count,
-        duration_s: invocation.running_time
-      )
+      notifier.finished(invocation)
 
       # Mark the invocation record as finished
       invocation.state = :finished
