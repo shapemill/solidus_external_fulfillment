@@ -27,8 +27,7 @@ module Spree
       result += " " + last_name unless last_name.blank?
       field_text(
         result,
-        redacted: @fulfillment_request.fulfilled?,
-        capped: @fulfillment_request.fulfilled?
+        redacted: @fulfillment_request.fulfilled?
       )
     end
 
@@ -38,8 +37,7 @@ module Spree
       result += ", " + address2 unless address2.blank?
       field_text(
         result,
-        redacted: @fulfillment_request.fulfilled?,
-        capped: @fulfillment_request.fulfilled?
+        redacted: @fulfillment_request.fulfilled?
       )
     end
 
@@ -60,8 +58,7 @@ module Spree
     def zip_code_field
       field_text(
         @fulfillment_request.order.shipping_address.zipcode,
-        redacted: @fulfillment_request.fulfilled?,
-        capped: @fulfillment_request.fulfilled?
+        redacted: @fulfillment_request.fulfilled?
       )
     end
 
