@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SolidusTest</title>
+    <title>
+      <% unless @fulfillment_request.nil? %>
+      <%= @fulfillment_request.order.store.name %> order <%= @fulfillment_request.order.number %>
+      <% end %>
+    </title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
