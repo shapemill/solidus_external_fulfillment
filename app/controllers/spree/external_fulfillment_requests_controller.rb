@@ -24,7 +24,11 @@ class Spree::ExternalFulfillmentRequestsController < ApplicationController
   end
 
   def show
-    #
+    unless @fulfillment_request.waiting_for_fulfillment? || @fulfillment_request.fulfilled?
+      # Only allow showing requests that are either waiting for fulfillment or that
+      # have been fulfilled
+      raise ActiveRecord::RecordNotFound
+    end
   end
 
   def fulfill

@@ -22,7 +22,7 @@
             <th scope="col">Status</th>
             <td>
               <span class="badge badge-pill <%= @fulfillment_request.state %>">
-                <%= @fulfillment_request.state.humanize %>
+                <%= status_field %>
               </span>
             </td>
           </tr>
@@ -33,7 +33,7 @@
     </div>
   </div>
 
-   <hr class="separator">
+  <hr class="separator">
 
   <div class="row">
     <div class="col-sm-6">
@@ -42,40 +42,27 @@
         <tbody>
           <tr>
             <th scope="row">Name</th>
-            <td>
-              <%= @fulfillment_request.order.shipping_address.first_name %>
-                <%= @fulfillment_request.order.shipping_address.last_name %>
-            </td>
+            <td><%= name_field %></td>
           </tr>
           <tr>
             <th scope="row">Address</th>
-            <td>
-              <%= [@fulfillment_request.order.shipping_address.address1, @fulfillment_request.order.shipping_address.address2].join(", ") %>
-            </td>
+            <td><%= address_field %></td>
           </tr>
           <tr>
             <th scope="row">City</th>
-            <td>
-              <%= @fulfillment_request.order.shipping_address.city %>
-            </td>
+            <td><%= city_field %></td>
           </tr>
           <tr>
             <th scope="row">State</th>
-            <td>
-              <%= @fulfillment_request.order.shipping_address.state %>
-            </td>
+            <td><%= state_field %></td>
           </tr>
           <tr>
             <th scope="row">Zip code</th>
-            <td>
-              <%= @fulfillment_request.order.shipping_address.zipcode %>
-            </td>
+            <td><%= zip_code_field %></td>
           </tr>
           <tr>
             <th scope="row">Country</th>
-            <td>
-              <%= @fulfillment_request.order.shipping_address.country %>
-            </td>
+            <td><%= country_field %></td>
           </tr>
         </tbody>
       </table>
@@ -87,15 +74,11 @@
         <tbody>
           <tr>
             <th scope="row">Shipping method</th>
-            <td>
-              <%= @fulfillment_request.order.shipping_address.first_name %>
-                <%= @fulfillment_request.order.shipping_address.last_name %>
-            </td>
+            <td><%= shipping_method_field %></td>
           </tr>
           <tr>
             <th scope="row">Packing slip</th>
-            <td>
-              <%= @fulfillment_request.packing_slip_url.nil? ? "None" : link_to("Download", @fulfillment_request.packing_slip_url, class: "btn-sm btn-primary") %>
+            <td><%= packing_slip_link %></td>
             </td>
           </tr>
         </tbody>
@@ -105,7 +88,7 @@
 
   <hr class="separator">
 
-  <% if !@fulfillment_request.fulfillment_center.fulfillment_notes.blank? %>
+  <% if should_show_instructions %>
     <div class="row">
       <div class="col-lg">
         <div class="card">
@@ -137,16 +120,18 @@
     </div>
   </div>
 
+  <% if @fulfillment_request.waiting_for_fulfillment? %>
   <div class="row">
-    <div class="col-sm">
+    <div class="col-sm-6 offset-sm-3">
       <%= form_tag(@fulfillment_request.hash_id, method: "put", class: "mark-as-shipped-form") do %>
         <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
         <%= text_field_tag :tracking_number, nil, class: "fullwidth form-control", placeholder: "Tracking number (optional)" %>
         <%= submit_tag 'Mark order as shipped',
-          data: { confirm: "Are you sure?" },
+          data: { confirm: "Are you sure? Download links and adress will no longer be available." },
           class: "btn btn-block btn-success"
         %>
       <% end %>
     </div>
   </div>
+  <% end %>
 </div>
