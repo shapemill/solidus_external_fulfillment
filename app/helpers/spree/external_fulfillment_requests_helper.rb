@@ -12,7 +12,7 @@ module Spree
       true
     end
 
-    def redact_sensitive_info
+    def redact_sensitive_fulfillment_request_info
       unless @fulfillment_request.fulfillment_center.enable_order_page_http_auth?
         return @fulfillment_request.fulfilled?
       end
@@ -25,7 +25,7 @@ module Spree
     end
 
     def field_text(text, sensitive: false)
-      text = text[0..1] + "... " if (sensitive && redact_sensitive_info)
+      text = text[0..1] + "... " if (sensitive && redact_sensitive_fulfillment_request_info)
       text
     end
 
@@ -79,7 +79,7 @@ module Spree
     end
 
     def packing_slip_link
-      return already_shipped_message if redact_sensitive_info
+      return already_shipped_message if redact_sensitive_fulfillment_request_info
       return "None" if @fulfillment_request.packing_slip_url.nil?
       link_to(
         "Download",

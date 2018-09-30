@@ -127,7 +127,7 @@
         <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
         <%= text_field_tag :tracking_number, nil, class: "fullwidth form-control", placeholder: "Tracking number (optional)" %>
         <%= submit_tag 'Mark order as shipped',
-          data: { confirm: "Are you sure? Download links and adress will no longer be available." },
+          data: { confirm: "Are you sure? This will notify the customer that the order has been shipped." },
           class: "btn btn-block btn-success"
         %>
       <% end %>
