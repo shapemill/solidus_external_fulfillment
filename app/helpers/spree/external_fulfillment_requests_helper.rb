@@ -1,9 +1,8 @@
 module Spree
   module ExternalFulfillmentRequestsHelper
-
     def status_field
       return "Shipped" if @fulfillment_request.state == "fulfilled"
-      return @fulfillment_request.state.humanize
+      @fulfillment_request.state.humanize
     end
 
     def should_show_instructions
@@ -16,8 +15,7 @@ module Spree
       unless @fulfillment_request.fulfillment_center.enable_order_page_http_auth?
         return @fulfillment_request.fulfilled?
       end
-
-      return false
+      false
     end
 
     def already_shipped_message
@@ -25,7 +23,7 @@ module Spree
     end
 
     def field_text(text, sensitive: false)
-      text = text[0..1] + "... " if (sensitive && redact_sensitive_fulfillment_request_info)
+      text = text[0..1] + "... " if sensitive && redact_sensitive_fulfillment_request_info
       text
     end
 
