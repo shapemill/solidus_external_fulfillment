@@ -21,6 +21,7 @@ FactoryBot.define do
       line_items_count {
         10
       }
+      line_items_attributes { [{ quantity: 2 }] * line_items_count }
     end
 
     after(:create) do |order, _|
@@ -28,6 +29,7 @@ FactoryBot.define do
       order.line_items.each_with_index do |line_item, index|
         fulfillment_type = fulfillment_types_and_nil[index % fulfillment_types_and_nil.length]
         line_item.product.fulfillment_type = fulfillment_type
+        # line_item.quantity = 1
         line_item.product.save!
         Spree::FulfillmentCenter.create({
           display_name: "Hello",
@@ -40,7 +42,9 @@ FactoryBot.define do
 
   factory :order_with_many_fulfillment_types_ready_to_ship, parent: :order_with_many_fulfillment_types do
     transient do
-      payment_type :credit_card_payment
+      payment_type {
+        :credit_card_payment
+      }
     end
 
     after(:create) do |order, evaluator|

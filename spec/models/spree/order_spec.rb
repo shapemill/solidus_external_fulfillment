@@ -52,8 +52,10 @@ RSpec.describe Spree::Order, type: :model do
       it "with the right tracking number" do
         expect(@order.cartons.first.tracking).to eq(@tracking_number)
       end
-      it "with the right number of inventory untits" do
-        expect(@order.cartons.first.inventory_units.count).to eq(@order.line_items_with_no_fulfillment_center.length)
+      it "with the right number of inventory units" do
+        raise "understand this"
+        # Add regular product with quantity > 1 to order. Should make this fail
+        # expect(@order.cartons.first.inventory_units.count).to eq(@order.line_items_with_no_fulfillment_center.length)
       end
     end
   end
