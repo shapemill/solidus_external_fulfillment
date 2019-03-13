@@ -10,6 +10,7 @@ en:
     new_fulfillment_center: "New fulfillment center"
     edit_fulfillment_center: "Edit fulfillment center"
     start_fulfillment_preparation_batch_job: "Start new job"
+    fulfillment_center: "Fulfillment center"
   activerecord:
     models:
       spree/fulfillment_center:
