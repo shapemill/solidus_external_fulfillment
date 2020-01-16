@@ -1,10 +1,7 @@
 source 'https://rubygems.org'
 
-# Specify 5.2.2 here to work around https://github.com/solidusio/solidus/issues/2825
-gem 'rails', '5.2.2'
+gem 'rails', '~> 6.0'
 
-gem 'solidus', '~> 2.9'
-# Provides basic authentication functionality for testing parts of your engine
-gem 'solidus_auth_devise', '~> 1.0'
+gem 'solidus', '~> 2.10'
 
 gemspec
