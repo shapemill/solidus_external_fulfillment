@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir['test/**/*']
 
   s.add_dependency 'solidus_core'
-  s.add_dependency 'state_machines'
+  # s.add_dependency 'state_machines'
   s.add_dependency 'hashids'
   s.add_dependency 'deface'
   s.add_dependency 'redcarpet'

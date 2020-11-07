@@ -1,12 +1,11 @@
 PATH
   remote: .
   specs:
-    solidus_external_fulfillment (0.0.3)
+    solidus_external_fulfillment (0.0.4)
       deface
       hashids
       redcarpet
       solidus_core
-      state_machines
 
 GEM
   remote: https://rubygems.org/
