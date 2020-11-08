@@ -11,3 +11,9 @@ Spree::ExternalFulfillment.hash_id_salt = "0c0daa78aeec13154c0830e5f6cf44"
 
 # Override this in apps using the extension
 Spree::ExternalFulfillment.fulfillment_types = [:dummy_type_1, :dummy_type_2, :dummy_type_3, :dummy_type_4]
+
+# Add hook to create fulfillment requests when orders are finalized
+Spree::Event.subscribe 'order_finalized' do |event|
+  order = event.payload[:order]
+  Spree::FulfillmentRequest.create_on_order_finalized(order)
+end

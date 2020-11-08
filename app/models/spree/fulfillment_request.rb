@@ -83,6 +83,31 @@ class Spree::FulfillmentRequest < ApplicationRecord
     )
   end
 
+  def self.create_on_order_finalized(order)
+    # Create a list of unique ids of fulfillment centers
+    # associated with this order
+    fulfillment_center_ids = []
+    order.line_items.each do |line_item|
+      fulfillment_center = line_item.assigned_fulfillment_center
+      next if fulfillment_center.nil?
+      center_id = fulfillment_center.id
+      next if fulfillment_center_ids.include?(center_id)
+      fulfillment_center_ids << center_id
+    end
+
+    # For each unique fulfillment center, create a blank fulfillment request
+    Spree::FulfillmentRequest.transaction do
+      fulfillment_center_ids.each do |fulfillment_center_id|
+        next if fulfillment_center_id.nil?
+
+        Spree::FulfillmentRequest.create({
+          spree_fulfillment_center_id: fulfillment_center_id,
+          order: order
+        })
+      end
+    end
+  end
+
   def notifier
     class_name = Spree::ExternalFulfillment.fulfillment_request_notifier_class
     class_name.constantize.new(self)

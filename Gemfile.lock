@@ -6,6 +6,7 @@ PATH
       hashids
       redcarpet
       solidus_core
+      state_machines
 
 GEM
   remote: https://rubygems.org/
