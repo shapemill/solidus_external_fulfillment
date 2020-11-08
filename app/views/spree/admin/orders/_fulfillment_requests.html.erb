@@ -27,7 +27,7 @@
           <% end %>
         </td>
         <td class="actions">
-          <% if request.not_prepared? %>
+          <% if request.waiting_for_preparation? %>
             <%= fulfillment_request_prepare_button(request) %>
           <% elsif request.preparing? %>
             <% # no actions when preparing %>

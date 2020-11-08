@@ -1,6 +1,6 @@
 class Spree::FulfillmentRequest < ApplicationRecord
   enum state: [
-    :not_prepared,
+    :waiting_for_preparation,
     :preparing,
     :waiting_for_fulfillment,
     :fulfilled,
@@ -19,9 +19,9 @@ class Spree::FulfillmentRequest < ApplicationRecord
   validates :order, presence: true
   validates :state, presence: true
 
-  state_machine :state, initial: :not_prepared do
+  state_machine :state, initial: :waiting_for_preparation do
     event :start_preparation do
-      transition not_prepared: :preparing
+      transition waiting_for_preparation: :preparing
     end
 
     event :fail_preparation do
@@ -37,11 +37,11 @@ class Spree::FulfillmentRequest < ApplicationRecord
     end
 
     event :reset do
-      transition [:waiting_for_fulfillment, :preparation_failed, :fulfilled] => :not_prepared
+      transition [:waiting_for_fulfillment, :preparation_failed, :fulfilled] => :waiting_for_preparation
     end
 
     after_transition to: :not_preared do |fulfillment_request, _|
-      # Destroy any referencing line items when transitioning back to not_prepared
+      # Destroy any referencing line items when transitioning back to waiting_for_preparation
       fulfillment_request.line_item_fulfillment_instructions.destroy_all
     end
 

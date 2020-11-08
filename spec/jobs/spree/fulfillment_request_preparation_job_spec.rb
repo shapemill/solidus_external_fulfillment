@@ -125,7 +125,7 @@ RSpec.describe Spree::FulfillmentRequestPreparationJob, type: :job do
     end
 
     it "fails if the request is not in the preparing state" do
-      @fulfillment_request.state = :not_prepared
+      @fulfillment_request.state = :waiting_for_preparation
       expect {
         job.process_line_items @fulfillment_request
       }.to raise_error(Spree::ExternalFulfillmentError)

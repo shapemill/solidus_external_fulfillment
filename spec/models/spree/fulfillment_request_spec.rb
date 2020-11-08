@@ -90,7 +90,7 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
 
   describe "State transition" do
     describe "start_preparation" do
-      it "succeeds if state is not_prepared" do
+      it "succeeds if state is waiting_for_preparation" do
         expect {
           @valid_record.start_preparation!
         }.to_not raise_error
@@ -122,8 +122,8 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
     end
 
     describe "fail_preparation" do
-      it "fails if state is not_prepared" do
-        @valid_record.state = :not_prepared
+      it "fails if state is waiting_for_preparation" do
+        @valid_record.state = :waiting_for_preparation
         expect {
           @valid_record.fail_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
@@ -155,8 +155,8 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
     end
 
     describe "finish_preparation" do
-      it "fails if state is not_prepared" do
-        @valid_record.state = :not_prepared
+      it "fails if state is waiting_for_preparation" do
+        @valid_record.state = :waiting_for_preparation
         expect {
           @valid_record.finish_preparation!
         }.to raise_error(StateMachines::InvalidTransition)
@@ -188,8 +188,8 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
     end
 
     describe "fulfill" do
-      it "fails if state is not_prepared" do
-        @valid_record.state = :not_prepared
+      it "fails if state is waiting_for_preparation" do
+        @valid_record.state = :waiting_for_preparation
         expect {
           @valid_record.fulfill!
         }.to raise_error(StateMachines::InvalidTransition)
@@ -221,8 +221,8 @@ RSpec.describe Spree::FulfillmentRequest, type: :model do
     end
 
     describe "reset" do
-      it "fails if state is not_prepared" do
-        @valid_record.state = :not_prepared
+      it "fails if state is waiting_for_preparation" do
+        @valid_record.state = :waiting_for_preparation
         expect {
           @valid_record.reset!
         }.to raise_error(StateMachines::InvalidTransition)

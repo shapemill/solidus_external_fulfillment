@@ -11,7 +11,7 @@ FactoryBot.define do
   end
 
   factory :fulfillment_request, class: 'Spree::FulfillmentRequest' do
-    state { :not_prepared }
+    state { :waiting_for_preparation }
     association :order, factory: :order_ready_to_ship
     association :fulfillment_center, factory: :fulfillment_center
   end

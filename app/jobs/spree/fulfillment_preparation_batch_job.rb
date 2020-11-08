@@ -20,7 +20,7 @@ module Spree
 
       # Gather requests by fulfillment center id
       requests_by_fulfillment_center_id = {}
-      Spree::FulfillmentRequest.where(state: :not_prepared).find_each(batch_size: 10) do |request|
+      Spree::FulfillmentRequest.where(state: :waiting_for_preparation).find_each(batch_size: 10) do |request|
         center_id = request.fulfillment_center.id
         requests = requests_by_fulfillment_center_id[center_id] || []
         requests << request
