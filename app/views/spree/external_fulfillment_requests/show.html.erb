@@ -88,15 +88,7 @@
   <hr class="separator">
 
   <% if should_show_instructions %>
-    <div class="row">
-      <div class="col-lg">
-        <div class="card">
-          <div class="card-body fulfillment-notes-box">
-            <%= render partial: "notes_box", locals: { fulfillment_request: @fulfillment_request }  %>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%= render partial: "fulfillment_notes", locals: { fulfillment_request: @fulfillment_request }  %>
 
     <hr class="separator">
   <% end %>

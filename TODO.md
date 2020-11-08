@@ -2,5 +2,4 @@
 
 ## TODO
 * Button to reassign non-started fulfillment requests
-* resetting fulfillment request gives line item count 0
-* Använd partial för fulfillment instructions
+* resetting fulfillment request gives line item count 0 (only after crash? something to do with failed reloading?)
