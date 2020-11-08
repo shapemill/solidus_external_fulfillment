@@ -5,5 +5,4 @@
 * resetting fulfillment request gives line item count 0
 * use order finalize event instead of module prepend to override finalize!
 * An enum element in Spree::FulfillmentRequest uses the prefix 'not_'. This will cause a conflict with auto generated negative scopes.
-* "Tracking info" instead of "Tracknig number"
 * Använd partial för fulfillment instructions

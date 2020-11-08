@@ -11,7 +11,7 @@
             <%= manual_items.length %> item <%= manual_items.length != 1 ? "s" : "" %> require<%= manual_items.length == 1 ? "s" : "" %> manual fulfillment
           </td>
           <td>
-            <%= text_field_tag :tracking_number, nil, class: "form-control", placeholder: "Tracking number (optional)" %>
+            <%= text_field_tag :tracking_number, nil, class: "form-control", placeholder: "Tracking info (optional)" %>
           </td>
           <td>
             <%= submit_tag 'Ship',
